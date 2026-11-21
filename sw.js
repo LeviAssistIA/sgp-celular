@@ -1,5 +1,5 @@
 // SGP Celular — guarda o app no aparelho para abrir mesmo sem internet
-const CACHE='sgp-cel-v2';
+const CACHE='sgp-cel-v3';
 const ARQ=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','vendor/msal-browser.min.js','vendor/tesseract.min.js','vendor/worker.min.js',
  'vendor/core/tesseract-core-lstm.wasm.js','vendor/core/tesseract-core-lstm.wasm','vendor/core/tesseract-core-simd-lstm.wasm.js','vendor/core/tesseract-core-simd-lstm.wasm','vendor/lang/eng.traineddata.gz'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ARQ)).then(()=>self.skipWaiting()));});

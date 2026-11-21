@@ -204,7 +204,7 @@ function toast(m,ms){const t=$('toast');t.textContent=m;t.style.display='block';
 /* ---------- estado local ---------- */
 function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch(e){return {};}}
 /* Código do aplicativo registrado na Microsoft pelo fornecedor do SGP (vale para todos os clientes). Vazio = cada celular digita em Configurar › Avançado. */
-const CLIENT_ID_PADRAO='';
+const CLIENT_ID_PADRAO='3e9a639c-e68d-448c-8546-31740ea3a262';
 const clientId=()=>(ST.cfg.client||CLIENT_ID_PADRAO||'').trim();
 let ST=Object.assign({cfg:{modo:CLIENT_ID_PADRAO?'onedrive':'demo',client:'',pasta:'SGP Dados',aparelho:''},cad:null,fila:[],env:[],status:{},user:null,lastSync:null},ld());
 function sv(){try{localStorage.setItem(K,JSON.stringify(ST));}catch(e){}}
