@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1b3f">
+<title>SGP Celular</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--n1:#0b1b3f;--n2:#16306b;--c1:#0891b2;--c2:#22d3ee;--ok:#16a34a;--warn:#ef6c00;--err:#c62828;--bg:#eef2f6;--tx:#0f1b2d;--mut:#64748b;--bd:#dbe3ec}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:15px}
+header{background:linear-gradient(90deg,var(--n1),var(--n2));color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5}
+header .tt{flex:1;line-height:1.15}header b{font-size:17px;letter-spacing:1px}header small{display:block;font-size:11.5px;color:#a5f3fc}
+.pill{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.15)}
+.pill.on{background:#22c55e;color:#04210f}.pill.off{background:#f59e0b;color:#2a1600}
+main{padding:14px 14px 90px;max-width:640px;margin:0 auto}
+.card{background:#fff;border-radius:14px;border:1px solid var(--bd);box-shadow:0 2px 8px rgba(15,27,45,.06);padding:14px;margin-bottom:12px}
+h2{font-size:14px;margin:0 0 10px;color:var(--n2);text-transform:uppercase;letter-spacing:.8px}
+label{display:block;font-size:12px;font-weight:700;color:var(--mut);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid #b0bec5;border-radius:10px;background:#fff;color:var(--tx)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(8,145,178,.2)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:12px;padding:14px;font:inherit;font-size:16px;font-weight:800;cursor:pointer;background:#e2e8f0;color:var(--tx)}
+.btn.p{background:var(--c1);color:#fff}.btn.g{background:var(--ok);color:#fff}.btn.n{background:var(--n2);color:#fff}.btn.o{background:var(--warn);color:#fff}
+.btn:disabled{opacity:.5}
+.btn.big{padding:22px;font-size:19px;border-radius:16px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.hint{font-size:12.5px;color:var(--mut);line-height:1.45}
+.placa{font-size:30px!important;font-weight:900;letter-spacing:4px;text-align:center;text-transform:uppercase}
+.veic{background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:12px;margin-top:10px;font-size:14px;line-height:1.5}
+.veic .pl{font-size:22px;font-weight:900;letter-spacing:2px;color:var(--n2)}
+.warnbox{background:#fffbeb;border:1px solid #fcd34d;border-left:5px solid var(--warn);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13.5px}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eef2f6}.item:last-child{border:0}
+.item .tx{flex:1;min-width:0}.item b{display:block}.item small{color:var(--mut)}
+.tag{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.t-fila{background:#fef3c7;color:#92400e}.t-env{background:#e0f2fe;color:#075985}.t-tk{background:#dcfce7;color:#166534}.t-conc{background:#ede9fe;color:#5b21b6}.t-canc{background:#eee;color:#777}
+.sec{display:none}.sec.on{display:block}
+#cam{position:fixed;inset:0;background:#000;z-index:20;display:none;flex-direction:column}
+#cam video{flex:1;width:100%;object-fit:cover}
+#cam .guide{position:absolute;left:8%;right:8%;top:38%;aspect-ratio:3.08/1;border:3px solid #22d3ee;border-radius:10px;box-shadow:0 0 0 2000px rgba(0,0,0,.45)}
+#cam .gt{position:absolute;left:0;right:0;top:calc(38% - 40px);text-align:center;color:#fff;font-weight:700;text-shadow:0 1px 3px #000}
+#cam .bar{position:absolute;left:0;right:0;bottom:0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.sug{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sug button{border:2px solid var(--c1);background:#fff;color:var(--n2);font:inherit;font-weight:900;letter-spacing:1px;padding:8px 12px;border-radius:10px;font-size:16px}
+.sug button.best{background:var(--c1);color:#fff}
+nav.tabbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--bd);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:6}
+nav.tabbar button{flex:1;border:0;background:none;font:inherit;font-size:11.5px;font-weight:700;color:var(--mut);padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.tabbar button.on{color:var(--c1)}
+nav.tabbar svg{width:22px;height:22px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f1b2d;color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;z-index:30;max-width:90vw;display:none;text-align:center}
+#login{position:fixed;inset:0;z-index:40;background:radial-gradient(800px 500px at 20% 0%,var(--n2),var(--n1));display:flex;align-items:center;justify-content:center;padding:20px}
+#login .card{width:100%;max-width:380px}
+.prog{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:8px}.prog i{display:block;height:100%;background:var(--c1);width:0;transition:width .2s}
+</style>
+</head>
+<body>
+<div id="login">
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><img src="icon-192.png" width="46" height="46" style="border-radius:12px"><div><b style="font-size:20px;letter-spacing:2px;color:var(--n2)">SGP</b><div class="hint" style="margin:0">Celular · Gestão de Carga e Pesagem</div></div></div>
+    <div id="lgSemCad" class="hint" style="display:none;margin:8px 0">Primeiro acesso neste aparelho: escolha a conexão em <b>Configurar</b> para baixar os usuários do SGP.</div>
+    <label>Usuário</label><select id="lgUser"></select>
+    <label>Senha</label><input id="lgSenha" type="password" autocomplete="current-password">
+    <p id="lgErr" style="color:var(--err);font-weight:700;min-height:18px;margin:8px 0"></p>
+    <button class="btn p" id="lgOk">Entrar</button>
+    <button class="btn" id="lgCfg" style="margin-top:8px">Configurar conexão</button>
+  </div>
+</div>
+
+<header>
+  <img src="icon-192.png" width="34" height="34" style="border-radius:9px">
+  <div class="tt"><b>SGP Celular</b><small id="hdUser"></small></div>
+  <span class="pill" id="hdNet">—</span>
+</header>
+
+<main>
+<!-- ================= INÍCIO ================= -->
+<section id="s-ini" class="sec on">
+  <div class="card">
+    <button class="btn p big" id="btLer"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Ler placa com a câmera</button>
+    <label>ou digite a placa</label>
+    <input id="inPlaca" class="placa" maxlength="8" placeholder="ABC1D23" list="dlPlacas" autocomplete="off">
+    <div class="sug" id="ocrSug"></div>
+    <div id="ocrInfo" class="hint" style="margin-top:6px"></div>
+  </div>
+  <div class="card" id="frm" style="display:none">
+    <h2>Dados da carga</h2>
+    <div id="veic"></div>
+    <div id="abBox"></div>
+    <label>Motorista</label><input id="fMot" list="dlMot" style="text-transform:uppercase">
+    <label>Transportadora</label><input id="fTransp" list="dlTransp" style="text-transform:uppercase">
+    <label>Produto / Material</label><input id="fMat" list="dlMat" style="text-transform:uppercase">
+    <label>Local da descarga (frente de serviço)</label><input id="fLocal" list="dlLocal" style="text-transform:uppercase">
+    <div class="row"><div><label>Fornecedor / Origem</label><input id="fForn" list="dlForn" style="text-transform:uppercase"></div><div><label>Cliente</label><input id="fCli" list="dlCli" style="text-transform:uppercase"></div></div>
+    <label>Observação</label><textarea id="fObs" rows="2"></textarea>
+    <div style="height:12px"></div>
+    <button class="btn g big" id="btEnviar">Enviar para a balança</button>
+    <p class="hint" style="text-align:center;margin:8px 0 0">O número do ticket é dado pelo computador da balança.</p>
+  </div>
+</section>
+
+<!-- ================= LANÇAMENTOS ================= -->
+<section id="s-lista" class="sec">
+  <div class="card"><h2>Meus lançamentos</h2><div id="lista"></div></div>
+</section>
+
+<!-- ================= CONFIGURAR ================= -->
+<section id="s-cfg" class="sec">
+  <div class="card">
+    <h2>Conexão com o SGP</h2>
+    <label>Modo</label>
+    <select id="cModo">
+      <option value="onedrive">OneDrive (uso normal no celular)</option>
+      <option value="pasta">Pasta do computador (teste no PC)</option>
+      <option value="demo">Demonstração (sem conexão)</option>
+    </select>
+    <div id="cOne">
+      <label>Pasta de dados do SGP no OneDrive</label><input id="cPasta" placeholder="SGP Dados">
+      <p class="hint">É o nome da pasta de dados do SGP dentro do OneDrive do computador da balança. Entre com a <b>mesma conta Microsoft</b> desse OneDrive (Hotmail, Outlook ou e-mail da empresa).</p>
+      <details id="cAvanc" style="margin:6px 0 10px"><summary class="hint" style="cursor:pointer">Avançado</summary>
+        <label>Código do aplicativo (Client ID da Microsoft)</label><input id="cClient" placeholder="deixe vazio para usar o padrão" autocomplete="off">
+        <p class="hint" id="cClientInfo"></p></details>
+      <button class="btn n" id="cEntrarMs">Entrar com a conta Microsoft</button>
+      <p class="hint" id="cMsInfo"></p>
+    </div>
+    <div id="cPas" style="display:none">
+      <p class="hint">Para testar no computador (Chrome/Edge): escolha a <b>pasta de dados do SGP</b>. O app lê o cadastro e grava os lançamentos nela, como faria pelo OneDrive.</p>
+      <button class="btn n" id="cEscPasta">Escolher pasta de dados do SGP</button>
+      <p class="hint" id="cPasInfo"></p>
+    </div>
+    <div id="cDem" style="display:none"><p class="hint">Modo demonstração: usa placas e cadastros de exemplo e não envia nada. Usuário <b>DEMO</b>, senha <b>1234</b>.</p></div>
+    <label>Nome deste aparelho</label><input id="cAparelho" placeholder="ex.: CELULAR PORTARIA" style="text-transform:uppercase">
+    <div style="height:10px"></div>
+    <button class="btn p" id="cSalvar">Salvar e sincronizar</button>
+  </div>
+  <div class="card">
+    <h2>Situação</h2>
+    <div id="stInfo" class="hint"></div>
+    <div style="height:8px"></div>
+    <button class="btn" id="btSync">Sincronizar agora</button>
+    <div style="height:8px"></div>
+    <button class="btn" id="btSair">Sair do usuário</button>
+  </div>
+</section>
+</main>
+
+<nav class="tabbar">
+  <button data-s="s-ini" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h4l3 3v4h-7"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg>Nova carga</button>
+  <button data-s="s-lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lançamentos <span id="nbFila"></span></button>
+  <button data-s="s-cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Configurar</button>
+</nav>
+
+<div id="cam">
+  <video id="vid" playsinline autoplay muted></video>
+  <div class="gt">Enquadre a placa no retângulo</div>
+  <div class="guide"></div>
+  <div class="bar"><button class="btn" id="camX" style="flex:1">Cancelar</button><button class="btn p" id="camOk" style="flex:2">Ler placa</button></div>
+</div>
+<div class="toast" id="toast"></div>
+<canvas id="cv" style="display:none"></canvas>
+<datalist id="dlPlacas"></datalist><datalist id="dlMot"></datalist><datalist id="dlTransp"></datalist><datalist id="dlMat"></datalist><datalist id="dlLocal"></datalist><datalist id="dlForn"></datalist><datalist id="dlCli"></datalist>
+
+<script src="vendor/msal-browser.min.js"></script>
+<script src="vendor/tesseract.min.js"></script>
+<script>
+/* ============================================================
+   SGP Celular — lê a placa, completa os dados e envia ao SGP.
+   O NÚMERO DO TICKET É DADO SÓ PELO COMPUTADOR DA BALANÇA.
+   Arquivos na pasta de dados do SGP:
+     celular/cadastro.json  (SGP → celular: usuários, veículos, listas)
+     celular/status.json    (SGP → celular: ticket de cada envio)
+     celular/entrada/CEL-xxxx.json (celular → SGP)
+   ============================================================ */
+const $=id=>document.getElementById(id);
+const K='sgp_cel_v1';
+const U=s=>String(s||'').trim().toUpperCase();
+const normP=s=>U(s).replace(/[^A-Z0-9]/g,'');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hs=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h;}; // antigo (só para conferir senhas de antes da v2.2)
+/* ---- senhas seguras (v2.2): SHA-256 com sal e 1000 repetições; nenhuma senha fica gravada em texto ---- */
+const SHA_K=(()=>{const k=[];let n=2;while(k.length<64){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296)>>>0);n++;}return k;})();
+function sha256(str){const b=new TextEncoder().encode(str),l=b.length,n=((l+9+63)>>6)<<6,m=new Uint8Array(n);m.set(b);m[l]=0x80;const dv=new DataView(m.buffer);
+  dv.setUint32(n-4,(l*8)>>>0);dv.setUint32(n-8,Math.floor(l/536870912));
+  const H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19],w=new Uint32Array(64),r=(x,k)=>(x>>>k)|(x<<(32-k));
+  for(let o=0;o<n;o+=64){for(let i=0;i<16;i++)w[i]=dv.getUint32(o+i*4);
+    for(let i=16;i<64;i++){const x=w[i-15],y=w[i-2];w[i]=(w[i-16]+(r(x,7)^r(x,18)^(x>>>3))+w[i-7]+(r(y,17)^r(y,19)^(y>>>10)))>>>0;}
+    let [a,bb,c,d,e,f,g,h]=H;
+    for(let i=0;i<64;i++){const t1=(h+(r(e,6)^r(e,11)^r(e,25))+((e&f)^(~e&g))+SHA_K[i]+w[i])>>>0,t2=((r(a,2)^r(a,13)^r(a,22))+((a&bb)^(a&c)^(bb&c)))>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=bb;bb=a;a=(t1+t2)>>>0;}
+    H[0]=(H[0]+a)>>>0;H[1]=(H[1]+bb)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;}
+  return H.map(x=>x.toString(16).padStart(8,'0')).join('');}
+const senhaHash=(sal,pw)=>{let h=sal+':'+pw;for(let i=0;i<1000;i++)h=sha256(h+':'+sal);return h;};
+// confere a senha de acesso (qual='login') ou a de autorização (qual='aut'); aceita o formato antigo até o usuário entrar de novo
+function senhaConf(u,pw,qual){if(!u||pw==null)return false;
+  if(qual==='aut'){if(u.hha)return u.hha===senhaHash(u.sal,pw);if(u.ha!=null)return u.ha===hs(pw);}
+  if(u.hh)return u.hh===senhaHash(u.sal,pw);return u.h!=null&&u.h===hs(pw);}
+const int=n=>n==null||isNaN(n)?'':Number(n).toLocaleString('pt-BR');
+const pad=n=>String(n).padStart(2,'0');
+const agoraLocal=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());};
+const fmtDT=s=>{if(!s)return '';const [d,t]=s.split('T');const [y,m,dd]=d.split('-');return dd+'/'+m+' '+(t||'').slice(0,5);};
+function toast(m,ms){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display='none',ms||3000);}
+
+/* ---------- estado local ---------- */
+function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch(e){return {};}}
+/* Código do aplicativo registrado na Microsoft pelo fornecedor do SGP (vale para todos os clientes). Vazio = cada celular digita em Configurar › Avançado. */
+const CLIENT_ID_PADRAO='';
+const clientId=()=>(ST.cfg.client||CLIENT_ID_PADRAO||'').trim();
+let ST=Object.assign({cfg:{modo:CLIENT_ID_PADRAO?'onedrive':'demo',client:'',pasta:'SGP Dados',aparelho:''},cad:null,fila:[],env:[],status:{},user:null,lastSync:null},ld());
+function sv(){try{localStorage.setItem(K,JSON.stringify(ST));}catch(e){}}
+
+/* ---------- dados de demonstração ---------- */
+const DEMO={gerado:new Date().toISOString(),empresa:'EMPRESA DEMONSTRAÇÃO',users:[{login:'DEMO',nome:'DEMO',h:hs('1234'),ativo:true}],
+  veic:{ABC1D23:{motorista:'ANTONIO',transportadora:'TRANSPORTES EXEMPLO',tara:14000,modelo:'CAÇAMBA'},DEF4G56:{motorista:'PEDRO',transportadora:'TRANSPORTES EXEMPLO',tara:13470},HIJ7K89:{motorista:'MARCOS',transportadora:'TRANSPORTES EXEMPLO',tara:13420}},
+  ult:{ABC1D23:{material:'PEDRA MACADAME',local:'KM 15+000',fornecedor:'PEDREIRA MODELO',cliente:'CONSTRUTORA EXEMPLO'},DEF4G56:{material:'EXPURGO',local:'KM 10',fornecedor:'PEDREIRA MODELO',cliente:'CONSTRUTORA EXEMPLO'}},
+  abertos:{},listas:{material:['PEDRA DETONADA','PEDRA MACADAME','EXPURGO','PEDRA RACHÃO'],local:['KM 5+000','KM 10','KM 12+000','KM 15+000'],fornecedor:['PEDREIRA MODELO'],cliente:['CONSTRUTORA EXEMPLO'],transportadora:['TRANSPORTES EXEMPLO'],motorista:['ANTONIO','PEDRO','MARCOS']}};
+
+/* ---------- armazenamento (OneDrive / pasta / demo) ---------- */
+const msalLib=window.msal;
+let MSAL=null,PASTA=null,LOGIN_ERRO='';
+/* mensagens da Microsoft em português */
+function msErro(e){const t=String((e&&(e.errorMessage||e.message))||e||'');
+  if(/AADSTS65001|AADSTS90094|AADSTS90008|admin|administrador/i.test(t))return 'A empresa desta conta exige que o responsável de TI aprove o app SGP Celular. Peça a ele para liberar o app, ou use outra conta Microsoft.';
+  if(/AADSTS50020|AADSTS700016|AADSTS50194/i.test(t))return 'Esta conta Microsoft não pode entrar neste app. Confira o código do aplicativo em Configurar › Avançado.';
+  if(/user_cancelled|cancel|AADSTS65004/i.test(t))return 'Entrada cancelada.';
+  if(/AADSTS50011|redirect/i.test(t))return 'O endereço deste app não está cadastrado no registro da Microsoft (URI de redirecionamento).';
+  return t||'Não foi possível entrar com a conta Microsoft.';}
+const SCOPES=['Files.ReadWrite','User.Read'];
+async function msalApp(){if(MSAL)return MSAL;if(!clientId())throw new Error('Falta o código do aplicativo da Microsoft (Configurar › Avançado).');
+  MSAL=new msalLib.PublicClientApplication({auth:{clientId:clientId(),authority:'https://login.microsoftonline.com/common',redirectUri:location.origin+location.pathname},cache:{cacheLocation:'localStorage'}});
+  await MSAL.initialize();let r=null;try{r=await MSAL.handleRedirectPromise();}catch(e){LOGIN_ERRO=msErro(e);}if(r&&r.account)MSAL.setActiveAccount(r.account);
+  if(!MSAL.getActiveAccount()&&MSAL.getAllAccounts().length)MSAL.setActiveAccount(MSAL.getAllAccounts()[0]);return MSAL;}
+async function token(interativo){const m=await msalApp();const acc=m.getActiveAccount();
+  if(!acc){if(interativo){await m.loginRedirect({scopes:SCOPES});}throw new Error('Entre com a conta Microsoft em Configurar.');}
+  try{return (await m.acquireTokenSilent({scopes:SCOPES,account:acc})).accessToken;}
+  catch(e){if(interativo){await m.acquireTokenRedirect({scopes:SCOPES});}throw e;}}
+const gUrl=p=>'https://graph.microsoft.com/v1.0/me/drive/root:/'+[ST.cfg.pasta||'SGP Dados',...p.split('/')].map(encodeURIComponent).join('/');
+const ARM={
+  async ler(p){if(ST.cfg.modo==='demo')return p==='celular/cadastro.json'?DEMO:p==='celular/status.json'?{itens:ST.demoStatus||{}}:null;
+    if(ST.cfg.modo==='pasta'){const h=await pastaArq(p,false);if(!h)return null;return JSON.parse(await (await h.getFile()).text());}
+    const r=await fetch(gUrl(p)+':/content',{headers:{Authorization:'Bearer '+await token()}});if(r.status===404)return null;if(!r.ok)throw new Error('OneDrive '+r.status);return r.json();},
+  async gravar(p,obj){const txt=JSON.stringify(obj);
+    if(ST.cfg.modo==='demo'){demoProcessar(obj);return;}
+    if(ST.cfg.modo==='pasta'){const h=await pastaArq(p,true);const w=await h.createWritable();await w.write(txt);await w.close();return;}
+    const r=await fetch(gUrl(p)+':/content',{method:'PUT',headers:{Authorization:'Bearer '+await token(),'Content-Type':'application/json'},body:txt});if(!r.ok)throw new Error('OneDrive '+r.status);}
+};
+async function pastaArq(p,criar){if(!PASTA)PASTA=await idbGet('pasta');if(!PASTA)throw new Error('Escolha a pasta de dados do SGP em Configurar.');
+  if((await PASTA.queryPermission({mode:'readwrite'}))!=='granted'){if((await PASTA.requestPermission({mode:'readwrite'}))!=='granted')throw new Error('Sem permissão na pasta.');}
+  const parts=p.split('/');let d=PASTA;for(const x of parts.slice(0,-1))d=await d.getDirectoryHandle(x,{create:criar});
+  try{return await d.getFileHandle(parts[parts.length-1],{create:criar});}catch(e){if(!criar)return null;throw e;}}
+function idbOp(mode,fn){return new Promise((res,rej)=>{const o=indexedDB.open('sgp_cel',1);o.onupgradeneeded=()=>o.result.createObjectStore('h');o.onsuccess=()=>{try{const tx=o.result.transaction('h',mode);const rq=fn(tx.objectStore('h'));tx.oncomplete=()=>res(rq&&rq.result);tx.onerror=()=>rej(tx.error);}catch(e){rej(e);}};o.onerror=()=>rej(o.error);});}
+const idbGet=k=>idbOp('readonly',s=>s.get(k)).catch(()=>null);const idbPut=(k,v)=>idbOp('readwrite',s=>s.put(v,k)).catch(()=>null);
+function demoProcessar(e){ST.demoStatus=ST.demoStatus||{};const n=301+Object.keys(ST.demoStatus).length;setTimeout(()=>{ST.demoStatus[e.id]={ticket:String(n),status:'aberto',atualizado:new Date().toISOString()};sv();},2500);}
+
+/* ---------- sincronização ---------- */
+let SYNC=false;
+async function sincronizar(manual){
+  if(SYNC)return;SYNC=true;let erro='';
+  try{
+    if(ST.cfg.modo!=='demo'&&!navigator.onLine)throw new Error('sem internet');
+    const cad=await ARM.ler('celular/cadastro.json');if(cad){ST.cad=cad;listas();}
+    for(const e of ST.fila.slice()){await ARM.gravar('celular/entrada/'+e.id+'.json',e);ST.fila=ST.fila.filter(x=>x.id!==e.id);e.enviadoEm=new Date().toISOString();ST.env.unshift(e);}
+    const st=await ARM.ler('celular/status.json');if(st&&st.itens)ST.status=Object.assign(ST.status||{},st.itens);
+    ST.lastSync=new Date().toISOString();ST.env=ST.env.slice(0,300);
+  }catch(e){erro=e.message||String(e);}
+  SYNC=false;sv();ui();if(manual)toast(erro?'Não sincronizou: '+erro:'Sincronizado.');ST._erro=erro;stInfo();
+}
+setInterval(()=>sincronizar(false),15000);
+addEventListener('online',()=>{ui();sincronizar(false);});addEventListener('offline',ui);
+
+/* ---------- listas / login ---------- */
+function listas(){const c=ST.cad||{};const set=(id,a)=>$(id).innerHTML=(a||[]).map(v=>`<option value="${esc(v)}">`).join('');const L=c.listas||{};
+  set('dlPlacas',Object.keys(c.veic||{}).concat(Object.keys(c.ult||{})).filter((v,i,a)=>a.indexOf(v)===i).sort());set('dlMot',L.motorista);set('dlTransp',L.transportadora);set('dlMat',L.material);set('dlLocal',L.local);set('dlForn',L.fornecedor);set('dlCli',L.cliente);}
+function telaLogin(){const us=((ST.cad||{}).users||[]).filter(u=>u.ativo!==false);$('lgSemCad').style.display=us.length?'none':'';
+  $('lgUser').innerHTML=us.map(u=>`<option value="${esc(u.login)}"${ST.ultUser===u.login?' selected':''}>${esc(u.nome)}</option>`).join('');$('lgSenha').value='';$('lgErr').textContent='';$('login').style.display='flex';}
+$('lgOk').onclick=()=>{const u=((ST.cad||{}).users||[]).find(x=>x.login===$('lgUser').value);if(!u||!senhaConf(u,$('lgSenha').value,'login')){$('lgErr').textContent='Senha incorreta.';return;}
+  ST.user={login:u.login,nome:u.nome};ST.ultUser=u.login;sv();$('login').style.display='none';mostrar('s-ini');ui();};
+$('lgSenha').addEventListener('keydown',e=>{if(e.key==='Enter')$('lgOk').click();});
+$('lgCfg').onclick=()=>{$('login').style.display='none';mostrar('s-cfg');};
+$('btSair').onclick=()=>{ST.user=null;sv();telaLogin();};
+
+/* ---------- navegação / ui ---------- */
+function mostrar(s){document.querySelectorAll('.sec').forEach(x=>x.classList.toggle('on',x.id===s));document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='s-lista')lista();if(s==='s-cfg')cfgUI();}
+document.querySelectorAll('nav.tabbar button').forEach(b=>b.onclick=()=>{if(!ST.user&&b.dataset.s!=='s-cfg'){telaLogin();return;}mostrar(b.dataset.s);});
+function ui(){$('hdUser').textContent=(ST.user?ST.user.nome:'sem usuário')+(ST.cfg.aparelho?' · '+ST.cfg.aparelho:'');
+  const on=ST.cfg.modo==='demo'?true:navigator.onLine;const nf=ST.fila.length;
+  $('hdNet').className='pill '+(on?'on':'off');$('hdNet').textContent=(ST.cfg.modo==='demo'?'DEMO':on?'ONLINE':'SEM INTERNET')+(nf?' · '+nf+' na fila':'');
+  $('nbFila').textContent=nf?'('+nf+')':'';if($('s-lista').classList.contains('on'))lista();}
+function stInfo(){$('stInfo').innerHTML=`Modo: <b>${{onedrive:'OneDrive',pasta:'Pasta do computador',demo:'Demonstração'}[ST.cfg.modo]}</b><br>Cadastro do SGP: ${ST.cad?'<b>'+Object.keys(ST.cad.veic||{}).length+' veículos</b>, atualizado em '+new Date(ST.cad.gerado).toLocaleString('pt-BR'):'<b style="color:#c62828">não baixado</b>'}<br>Na fila para enviar: <b>${ST.fila.length}</b><br>Última sincronização: ${ST.lastSync?new Date(ST.lastSync).toLocaleString('pt-BR'):'—'}${ST._erro?'<br><span style="color:#c62828">Erro: '+esc(ST._erro)+'</span>':''}`;}
+
+/* ---------- configuração ---------- */
+function cfgUI(){const c=ST.cfg;$('cModo').value=c.modo;$('cClient').value=c.client||'';$('cClientInfo').textContent=CLIENT_ID_PADRAO?'Já vem preenchido no app. Só mude se o fornecedor pedir.':'Este app ainda não tem o código padrão: cole aqui o Client ID passado pelo fornecedor.';if(!CLIENT_ID_PADRAO&&!c.client)$('cAvanc').open=true;if(LOGIN_ERRO)$('cMsInfo').textContent=LOGIN_ERRO;$('cPasta').value=c.pasta||'SGP Dados';$('cAparelho').value=c.aparelho||'';modoUI();stInfo();
+  if(c.modo==='onedrive'&&c.client)msalApp().then(m=>{const a=m.getActiveAccount();$('cMsInfo').textContent=a?'Conectado como '+a.username:'Não conectado.';}).catch(e=>$('cMsInfo').textContent=e.message);
+  idbGet('pasta').then(h=>{$('cPasInfo').textContent=h?'Pasta escolhida: '+h.name:'Nenhuma pasta escolhida.';});}
+function modoUI(){const m=$('cModo').value;$('cOne').style.display=m==='onedrive'?'':'none';$('cPas').style.display=m==='pasta'?'':'none';$('cDem').style.display=m==='demo'?'':'none';}
+$('cModo').onchange=modoUI;
+$('cSalvar').onclick=async()=>{Object.assign(ST.cfg,{modo:$('cModo').value,client:$('cClient').value.trim(),pasta:$('cPasta').value.trim()||'SGP Dados',aparelho:U($('cAparelho').value)});MSAL=null;sv();
+  if(ST.cfg.modo==='demo'){ST.cad=DEMO;listas();}await sincronizar(true);ui();if(!ST.user)telaLogin();};
+$('cEntrarMs').onclick=async()=>{$('cModo').value='onedrive';modoUI();Object.assign(ST.cfg,{modo:'onedrive',client:$('cClient').value.trim(),pasta:$('cPasta').value.trim()||'SGP Dados'});MSAL=null;sv();try{await token(true);toast('Conectado.');cfgUI();}catch(e){$('cMsInfo').textContent=msErro(e);}};
+$('cEscPasta').onclick=async()=>{if(!window.showDirectoryPicker){alert('Este navegador não permite escolher pasta. Use Chrome ou Edge no computador.');return;}
+  try{const h=await showDirectoryPicker({mode:'readwrite'});PASTA=h;await idbPut('pasta',h);$('cPasInfo').textContent='Pasta escolhida: '+h.name;}catch(e){}};
+$('btSync').onclick=()=>sincronizar(true);
+
+/* ---------- leitura da placa (câmera + OCR) ---------- */
+let STREAM=null,WK=null;
+async function ocrWorker(){if(WK)return WK;$('ocrInfo').textContent='Preparando o leitor de placas (só na primeira vez)...';
+  WK=await Tesseract.createWorker('eng',1,{workerPath:'vendor/worker.min.js',corePath:'vendor/core',langPath:'vendor/lang',gzip:true,logger:m=>{if(m.status==='recognizing text')$('ocrInfo').textContent='Lendo a placa... '+Math.round(m.progress*100)+'%';}});
+  await WK.setParameters({tessedit_char_whitelist:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',tessedit_pageseg_mode:'7'});return WK;}
+$('btLer').onclick=async()=>{if(!ST.user){telaLogin();return;}
+  try{STREAM=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});}
+  catch(e){alert('Não foi possível abrir a câmera: '+e.message+'\n(Permita o uso da câmera. O app precisa estar publicado em https.)');return;}
+  $('vid').srcObject=STREAM;$('cam').style.display='flex';ocrWorker().catch(()=>{});};
+function fecharCam(){if(STREAM)STREAM.getTracks().forEach(t=>t.stop());STREAM=null;$('cam').style.display='none';}
+$('camX').onclick=fecharCam;
+$('camOk').onclick=async()=>{const v=$('vid');const g=document.querySelector('#cam .guide').getBoundingClientRect(),vr=v.getBoundingClientRect();
+  // mapeia o retângulo-guia (tela) para o quadro do vídeo (object-fit: cover)
+  const sc=Math.max(vr.width/v.videoWidth,vr.height/v.videoHeight),ox=(v.videoWidth*sc-vr.width)/2,oy=(v.videoHeight*sc-vr.height)/2;
+  const sx=(g.left-vr.left+ox)/sc,sy=(g.top-vr.top+oy)/sc,sw=g.width/sc,sh=g.height/sc;
+  const c=$('cv');c.width=Math.round(sw);c.height=Math.round(sh);c.getContext('2d').drawImage(v,sx,sy,sw,sh,0,0,c.width,c.height);
+  fecharCam();await lerImagem(c);};
+function preparar(src,cortarTopo){const W=900,r=W/src.width,H=Math.round(src.height*r);const y0=cortarTopo?Math.round(H*0.24):0;
+  const c=document.createElement('canvas');c.width=W;c.height=H-y0;const x=c.getContext('2d');x.drawImage(src,0,0,src.width,src.height,0,-y0,W,H);
+  const im=x.getImageData(0,0,c.width,c.height),d=im.data;let hist=new Array(256).fill(0);
+  for(let i=0;i<d.length;i+=4){const g=Math.round(.3*d[i]+.59*d[i+1]+.11*d[i+2]);d[i]=g;hist[g]++;}
+  // Otsu
+  const tot=c.width*c.height;let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,mx=0,th=127;
+  for(let i=0;i<256;i++){wB+=hist[i];if(!wB)continue;const wF=tot-wB;if(!wF)break;sB+=i*hist[i];const mB=sB/wB,mF=(sum-sB)/wF,b=wB*wF*(mB-mF)*(mB-mF);if(b>mx){mx=b;th=i;}}
+  for(let i=0;i<d.length;i+=4){const v=d[i]>th?255:0;d[i]=d[i+1]=d[i+2]=v;}x.putImageData(im,0,0);return c;}
+const L2N={O:'0',Q:'0',D:'0',I:'1',L:'1',Z:'2',S:'5',B:'8',G:'6',A:'4',T:'7'},N2L={'0':'O','1':'I','2':'Z','5':'S','8':'B','6':'G','4':'A','7':'T'};
+function placasDoTexto(txt){const s=U(txt).replace(/[^A-Z0-9]/g,'').replace(/BRASIL|BRAZIL|MERCOSUL/g,'');const out=[];
+  for(let i=0;i+7<=s.length;i++){const w=s.slice(i,i+7).split('');const f=w.map((ch,j)=>j<3?(N2L[ch]||ch):j===3?(L2N[ch]||ch):j===4?ch:(L2N[ch]||ch)).join('');
+    if(/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(f)){const muda=w.filter((ch,j)=>ch!==f[j]).length;out.push({p:f,muda});}}
+  return out.sort((a,b)=>a.muda-b.muda);}
+function dist(a,b){if(a.length!==b.length)return 9;let d=0;for(let i=0;i<a.length;i++)if(a[i]!==b[i])d++;return d;}
+function conhecidas(){const c=ST.cad||{};return [...new Set(Object.keys(c.veic||{}).concat(Object.keys(c.ult||{})))];}
+async function lerImagem(canvas){$('ocrSug').innerHTML='';const t0=Date.now();
+  try{const w=await ocrWorker();const cands=[];
+    for(const corte of [true,false]){const r=await w.recognize(preparar(canvas,corte));placasDoTexto(r.data.text).forEach(x=>cands.push({...x,conf:r.data.confidence}));}
+    const ks=conhecidas();const sugest=[];
+    cands.forEach(c=>{if(!sugest.some(s=>s.p===c.p))sugest.push({p:c.p,tipo:'lida',d:0});ks.forEach(k=>{const d=dist(k,c.p);if(d>0&&d<=2&&!sugest.some(s=>s.p===k))sugest.push({p:k,tipo:'cadastro',d});});});
+    // prioriza placa cadastrada idêntica, depois cadastrada parecida
+    sugest.sort((a,b)=>(ks.includes(b.p)-ks.includes(a.p))||(a.d-b.d));
+    if(!sugest.length){$('ocrInfo').textContent='Não consegui ler a placa. Tente de novo mais perto, com a placa reta e iluminada, ou digite.';return;}
+    $('ocrInfo').textContent='Toque na placa correta ('+((Date.now()-t0)/1000).toFixed(1)+' s):';
+    $('ocrSug').innerHTML=sugest.slice(0,5).map((s,i)=>`<button class="${i===0?'best':''}" data-p="${s.p}">${s.p}${ks.includes(s.p)?' ✓':''}</button>`).join('');
+    $('ocrSug').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('inPlaca').value=b.dataset.p;$('ocrSug').innerHTML='';$('ocrInfo').textContent='';abrirPlaca();});
+    if(ks.includes(sugest[0].p)){$('inPlaca').value=sugest[0].p;abrirPlaca();}
+  }catch(e){$('ocrInfo').textContent='Erro na leitura: '+e.message;}}
+window.lerImagem=lerImagem;window.placasDoTexto=placasDoTexto;
+
+/* ---------- formulário ---------- */
+$('inPlaca').addEventListener('input',()=>{const p=normP($('inPlaca').value);$('inPlaca').value=p;if(p.length>=7)abrirPlaca();else $('frm').style.display='none';});
+function abrirPlaca(){const p=normP($('inPlaca').value);const c=ST.cad||{};const v=(c.veic||{})[p],u=(c.ult||{})[p]||{};const ab=(c.abertos||{})[p];
+  $('veic').innerHTML=`<div class="veic"><div class="pl">${esc(p)}</div>${v||u.motorista?`<b>${esc((v&&v.motorista)||u.motorista||'')}</b> · ${esc((v&&v.transportadora)||u.transportadora||'')}${v&&v.modelo?' · '+esc(v.modelo):''}<br>`:'<b style="color:#ef6c00">Veículo sem cadastro no SGP</b><br>'}${v&&v.tara?'Tara cadastrada: <b>'+int(v.tara)+' kg</b> — só precisa passar carregado na balança.':'<span class="hint">Sem tara cadastrada — pesar vazio e carregado.</span>'}</div>`;
+  $('abBox').innerHTML=ab?`<div class="warnbox">⚠ <b>Esta placa já tem pesagem em aberto</b> no SGP (ticket nº ${esc(ab.ticket)}, desde ${fmtDT(ab.desde)}). Avise o operador da balança antes de enviar outra.</div>`:'';
+  const set=(id,val)=>{$(id).value=val||'';};
+  set('fMot',(v&&v.motorista)||u.motorista);set('fTransp',(v&&v.transportadora)||u.transportadora||((c.listas||{}).transportadora||[])[0]);set('fMat',u.material);set('fLocal',u.local);set('fForn',u.fornecedor||((c.listas||{}).fornecedor||[])[0]);set('fCli',u.cliente||((c.listas||{}).cliente||[])[0]);$('fObs').value='';
+  $('frm').style.display='';setTimeout(()=>$('frm').scrollIntoView({behavior:'smooth',block:'start'}),50);}
+function novoId(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';const r=crypto.getRandomValues(new Uint8Array(6));r.forEach(b=>s+=a[b%a.length]);return 'CEL-'+s;}
+$('btEnviar').onclick=()=>{const p=normP($('inPlaca').value);if(p.length<5){toast('Informe a placa.');return;}
+  const e={id:novoId(),placa:p,motorista:U($('fMot').value),transportadora:U($('fTransp').value),material:U($('fMat').value),local:U($('fLocal').value),fornecedor:U($('fForn').value),cliente:U($('fCli').value),obs:$('fObs').value.trim(),
+    usuario:ST.user?ST.user.nome:'',aparelho:ST.cfg.aparelho||'',criadoEm:new Date().toISOString(),horaLocal:agoraLocal(),v:1};
+  ST.fila.push(e);sv();ui();$('inPlaca').value='';$('frm').style.display='none';toast('Enviado: '+e.id+' · '+p+'. O ticket aparece em Lançamentos quando a balança receber.',4000);sincronizar(false);};
+
+/* ---------- lista ---------- */
+function lista(){const it=[...ST.fila.map(e=>({...e,_f:1})),...ST.env];
+  $('lista').innerHTML=it.length?it.slice(0,100).map(e=>{const s=(ST.status||{})[e.id];let tag;
+    if(e._f)tag='<span class="tag t-fila">NA FILA</span>';else if(!s)tag='<span class="tag t-env">ENVIADO</span>';else if(s.status==='cancelado')tag='<span class="tag t-canc">CANCELADO</span>';else if(s.status==='fechado')tag=`<span class="tag t-conc">Nº ${esc(s.ticket)} · ${s.liq!=null?(s.liq/1000).toLocaleString('pt-BR',{minimumFractionDigits:3})+' t':'CONCLUÍDA'}</span>`;else tag=`<span class="tag t-tk">TICKET Nº ${esc(s.ticket)}</span>`;
+    return `<div class="item"><div class="tx"><b>${esc(e.placa)} <small>· ${esc(e.id)}</small></b><small>${esc(e.material||'')}${e.local?' · '+esc(e.local):''} · ${fmtDT(e.horaLocal)}</small></div>${tag}</div>`;}).join(''):'<p class="hint">Nenhum lançamento ainda.</p>';}
+
+/* ---------- início ---------- */
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+(async()=>{if(ST.cfg.modo==='onedrive'&&clientId()){try{await msalApp();}catch(e){}}
+  if(ST.cfg.modo==='demo'&&!ST.cad){ST.cad=DEMO;}listas();ui();if(!ST.user)telaLogin();else $('login').style.display='none';sincronizar(false);})();
+</script>
+</body>
+</html>
