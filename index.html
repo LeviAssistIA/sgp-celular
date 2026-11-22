@@ -194,7 +194,7 @@ label.ck{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13.5p
     <h2>Pesagens concluídas</h2>
     <input id="pzBusca" placeholder="Buscar placa, ticket, cliente, motorista…" autocomplete="off">
     <div style="height:8px"></div>
-    <div class="chips" id="pzPer"><button data-p="hoje">Hoje</button><button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="tudo">Tudo</button></div>
+    <div class="chips" id="pzPer"><button data-p="hoje">Hoje</button><button data-p="7">7 dias</button><button data-p="30">30 dias</button><button data-p="tudo" class="on">Tudo</button></div>
     <div class="pzTot" id="pzTot"></div>
     <div id="pzLista"></div>
     <button class="btn" id="pzMais" style="display:none;margin-top:8px">Mostrar mais</button>
@@ -621,7 +621,7 @@ function lista(){const it=[...ST.fila.map(e=>({...e,_f:1})),...ST.env];
     return `<div class="item"><div class="tx"><b>${esc(e.placa)} <small>· ${esc(e.id)}</small></b><small>${esc(e.material||'')}${e.local?' · '+esc(e.local):''} · ${fmtDT(e.horaLocal)}</small></div>${tag}</div>`;}).join(''):'<p class="hint">Nenhum lançamento ainda.</p>';}
 
 /* ---------- consulta de pesagens concluídas (v6) ---------- */
-let PZ=null,PZ_T=0,PZ_LOAD=false,PZ_PER='30',PZ_N=50,PZ_ATUAL=null;
+let PZ=null,PZ_T=0,PZ_LOAD=false,PZ_PER='tudo',PZ_N=50,PZ_ATUAL=null;
 idbGet('pes').then(d=>{if(d&&!PZ)PZ=d;});
 function pzUsr(){if(!ST.user||!ST.cad)return null;return (ST.cad.users||[]).find(x=>x.login===ST.user.login)||null;}
 function pzPode(){const u=pzUsr();return !!u&&(u.perfil==='admin'||!u.perms||!!u.perms.relatorios);}
@@ -632,9 +632,24 @@ const dtBR=s=>{if(!s)return '';const [d,t]=s.split('T');const [y,m,dd]=d.split('
 async function pzCarregar(force){
   if(PZ_LOAD)return;if(!force&&PZ&&Date.now()-PZ_T<120000)return;PZ_LOAD=true;$('pzInfo').textContent='Atualizando…';
   try{if(ST.cfg.modo!=='demo'&&!navigator.onLine)throw new Error('sem internet');const d=await ARM.ler('celular/pesagens.json');PZ_T=Date.now();
-    if(d){PZ=d;idbPut('pes',ST.cfg.modo==='demo'?null:d);}else if(!PZ)PZ={p:[],hd:{},faltando:1};}
+    let x=d;if(!x&&ST.cfg.modo!=='demo'){const db=await ARM.ler('balanca_dados.json');if(db&&Array.isArray(db.reg))x=pzDoBanco(db);}
+    if(x){PZ=x;idbPut('pes',ST.cfg.modo==='demo'?null:x);}else if(!PZ)PZ={p:[],hd:{},faltando:1};}
   catch(e){toast('Não atualizou as pesagens: '+(e.message||e));}
   PZ_LOAD=false;pzRender();}
+// quando o computador ainda não mandou o pesagens.json (SGP antigo), monta a lista direto do arquivo de dados
+function pzDoBanco(db){const c=db.cfg||{},e=(db.emp&&db.emp.razao)?db.emp:null,N=v=>v==null||v===''?undefined:v;
+  const end=e?[e.endereco,[e.bairro,e.cidade].filter(Boolean).join(' - ')+(e.uf?' / '+e.uf:'')].filter(Boolean).join(' - '):'';
+  const doc=e?[e.cnpj?'CNPJ: '+e.cnpj:'',e.ie?'IE: '+e.ie:''].filter(Boolean).join(' | '):'';
+  const hd={rz:e?(e.fantasia||e.razao):(c.empresa||''),l:(e?[e.fantasia&&e.razao!==e.fantasia?e.razao:'',end,doc,e.foneCom||e.celular?'Fone: '+(e.foneCom||e.celular):'']:[c.linha1]).concat([c.linha2]).filter(Boolean),
+    tit:String(c.titulo||'TICKET DE PESAGEM').split(' - ')[0],rod:c.rodape||'Obrigado pela preferência! Dirija com cuidado.',logo:c.logo&&c.logo.length<200000?c.logo:''};
+  const mats=((db.cad||{}).material||[]),veic=db.veic||{};
+  const p=(db.reg||[]).filter(r=>r.status==='fechado'&&!r.cancelado).sort((a,b)=>(b.saida||'').localeCompare(a.saida||'')).map(r=>{
+    const mt=mats.find(m=>m.nome===r.material),ve=veic[r.placa]||{};const dif=r.p1!=null&&r.p2!=null&&r.p1!==r.p2;
+    const vm=r.liq!=null&&r.precoMat!=null?Math.round(r.liq/1000*r.precoMat*100)/100:null,vf=r.liq!=null&&r.precoFrete!=null?Math.round(r.liq/1000*r.precoFrete*100)/100:null;
+    return {id:r.id,t:r.ticket,e:N(r.entrada),s:N(r.saida),op:N(r.operador),pl:N(r.placa),md:N(ve.modelo),mo:N(r.motorista),tr:N(r.transportadora),fo:N(r.fornecedor),cl:N(r.cliente),lo:N(r.local),
+      mat:N(r.material),mc:N(mt&&mt.cod),ta:N(r.tara),br:N(r.bruto),lq:N(r.liq),tw:r.taraCad?'(Cadastro)':dif?(r.p1<r.p2?'(Entrada)':'(Saída)'):undefined,bw:dif?(r.p1>r.p2?'(Entrada)':'(Saída)'):undefined,
+      pm:N(r.precoMat),pf:N(r.precoFrete),vm:N(vm),vf:N(vf),vt:vm!=null||vf!=null?Math.round(((vm||0)+(vf||0))*100)/100:undefined,ped:N(r.pedido),obs:N(r.obs),cel:r.celId?1:undefined};});
+  return {v:1,hd,p,gerado:db.atualizado||null,doBanco:1};}
 function pzUI(){document.querySelectorAll('#pzPer button').forEach(b=>b.classList.toggle('on',b.dataset.p===PZ_PER));pzRender();pzCarregar(false);}
 document.querySelectorAll('#pzPer button').forEach(b=>b.onclick=()=>{PZ_PER=b.dataset.p;PZ_N=50;pzUI();});
 $('pzBusca').oninput=()=>{PZ_N=50;pzRender();};
@@ -650,7 +665,7 @@ function pzRender(){
   $('pzTot').innerHTML='<div><small>Pesagens</small><b>'+int(a.length)+'</b></div><div><small>Toneladas</small><b>'+tonS(tot)+' t</b></div>'+(val&&vt?'<div><small>Valor</small><b>'+brl(vt).replace(/,\d\d$/,'')+'</b></div>':'');
   $('pzLista').innerHTML=a.length?a.slice(0,PZ_N).map(r=>'<div class="pz" data-id="'+esc(r.id)+'"><div class="tx"><b>'+esc(r.pl||'—')+' <small style="display:inline;color:var(--mut);font-weight:600">· nº '+esc(r.t)+'</small></b><small>'+esc(dtBR(r.s).slice(0,16))+' · '+esc(r.mat||'')+'</small><small>'+esc(r.cl||r.fo||'')+'</small></div><div class="ps"><b>'+tonS(r.lq)+' t</b><small>'+int(r.lq)+' kg</small></div></div>').join(''):'<p class="hint">Nenhuma pesagem encontrada com esse filtro.</p>';
   $('pzMais').style.display=a.length>PZ_N?'':'none';
-  $('pzInfo').textContent=PZ.gerado?'Atualizado pelo computador da balança em '+new Date(PZ.gerado).toLocaleString('pt-BR')+' · últimos 120 dias':'';
+  $('pzInfo').textContent=PZ.gerado?'Atualizado pelo computador da balança em '+new Date(PZ.gerado).toLocaleString('pt-BR')+' · todas as pesagens concluídas':'';
   document.querySelectorAll('#pzLista .pz').forEach(el=>el.onclick=()=>pzAbrir(el.dataset.id));}
 
 // desenha o ticket numa imagem (mesmo modelo do ticket impresso)
