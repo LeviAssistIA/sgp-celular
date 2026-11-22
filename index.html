@@ -642,13 +642,14 @@ function pzDoBanco(db){const c=db.cfg||{},e=(db.emp&&db.emp.razao)?db.emp:null,N
   const doc=e?[e.cnpj?'CNPJ: '+e.cnpj:'',e.ie?'IE: '+e.ie:''].filter(Boolean).join(' | '):'';
   const hd={rz:e?(e.fantasia||e.razao):(c.empresa||''),l:(e?[e.fantasia&&e.razao!==e.fantasia?e.razao:'',end,doc,e.foneCom||e.celular?'Fone: '+(e.foneCom||e.celular):'']:[c.linha1]).concat([c.linha2]).filter(Boolean),
     tit:String(c.titulo||'TICKET DE PESAGEM').split(' - ')[0],rod:c.rodape||'Obrigado pela preferência! Dirija com cuidado.',logo:c.logo&&c.logo.length<200000?c.logo:''};
-  const mats=((db.cad||{}).material||[]),veic=db.veic||{};
+  const mats=((db.cad||{}).material||[]),veic=db.veic||{},qk=c.qrKey||'';const cj=(t,nm)=>{if(!nm)return '';const x=((db.cad||{})[t]||[]).find(o=>o.nome===nm);return x&&x.cnpj||'';};
   const p=(db.reg||[]).filter(r=>r.status==='fechado'&&!r.cancelado).sort((a,b)=>(b.saida||'').localeCompare(a.saida||'')).map(r=>{
     const mt=mats.find(m=>m.nome===r.material),ve=veic[r.placa]||{};const dif=r.p1!=null&&r.p2!=null&&r.p1!==r.p2;
     const vm=r.liq!=null&&r.precoMat!=null?Math.round(r.liq/1000*r.precoMat*100)/100:null,vf=r.liq!=null&&r.precoFrete!=null?Math.round(r.liq/1000*r.precoFrete*100)/100:null;
     return {id:r.id,t:r.ticket,e:N(r.entrada),s:N(r.saida),op:N(r.operador),pl:N(r.placa),md:N(ve.modelo),mo:N(r.motorista),tr:N(r.transportadora),fo:N(r.fornecedor),cl:N(r.cliente),lo:N(r.local),
       mat:N(r.material),mc:N(mt&&mt.cod),ta:N(r.tara),br:N(r.bruto),lq:N(r.liq),tw:r.taraCad?'(Cadastro)':dif?(r.p1<r.p2?'(Entrada)':'(Saída)'):undefined,bw:dif?(r.p1>r.p2?'(Entrada)':'(Saída)'):undefined,
-      pm:N(r.precoMat),pf:N(r.precoFrete),vm:N(vm),vf:N(vf),vt:vm!=null||vf!=null?Math.round(((vm||0)+(vf||0))*100)/100:undefined,ped:N(r.pedido),obs:N(r.obs),cel:r.celId?1:undefined};});
+      pm:N(r.precoMat),pf:N(r.precoFrete),vm:N(vm),vf:N(vf),vt:vm!=null||vf!=null?Math.round(((vm||0)+(vf||0))*100)/100:undefined,ped:N(r.pedido),obs:N(r.obs),cel:r.celId?1:undefined,
+      au:qk?pzCodAut(qk,r):undefined,ab:r.abertoPor&&r.abertoPor!==r.operador?r.abertoPor:undefined,tc:N(cj('transportadora',r.transportadora)),fc:N(cj('fornecedor',r.fornecedor)),cc:N(cj('cliente',r.cliente)),tcad:N(r.taraCad),ib:r.indB!=null||r.indT!=null?(r.indB?1:0):undefined,it:r.indB!=null||r.indT!=null?(r.indT?1:0):undefined};});
   return {v:1,hd,p,gerado:db.atualizado||null,doBanco:1};}
 function pzUI(){document.querySelectorAll('#pzPer button').forEach(b=>b.classList.toggle('on',b.dataset.p===PZ_PER));pzRender();pzCarregar(false);}
 document.querySelectorAll('#pzPer button').forEach(b=>b.onclick=()=>{PZ_PER=b.dataset.p;PZ_N=50;pzUI();});
@@ -682,9 +683,9 @@ function pzLinhas(r){const val=pzVal(),hd=(PZ&&PZ.hd)||{},L=[];const T=(t,o)=>L.
   K('PESO LÍQUIDO:',r.lq!=null?int(r.lq)+' kg':'',{dir:1,b:1,z:1.2,caixa:1});K('EM TONELADAS:',r.lq!=null?tonS(r.lq)+' t':'',{dir:1});
   if(val){if(r.vm!=null)K(r.vf!=null?'VALOR MATERIAL:':'VALOR TOTAL:',brl(r.vm),{dir:1,b:r.vf==null});if(r.vf!=null){K('VALOR FRETE:',brl(r.vf),{dir:1});K('VALOR TOTAL:',brl(r.vt),{dir:1,b:1});}}
   K('PEDIDO Nº:',r.ped,{dir:1});const ob=[r.lo?'DESCARGA: '+r.lo:'',r.obs].filter(Boolean).join(' | ');if(ob){T('',{tr:1});K('Obs:',ob);}
-  T('',{dupla:1});if(r.au){T('Código de autenticidade',{c:1,z:.85});T(r.au,{c:1,b:1});T('Confira no SGP: Relatórios › Verificar ticket',{c:1,z:.8});T('',{dupla:1});}
+  T('',{dupla:1});if(r.au){T('Código de autenticidade',{c:1,z:.85});T(r.au,{c:1,b:1});T('Confira no SGP: Relatórios › Verificar ticket',{c:1,z:.8});T('',{dupla:1});}T('Gerado pelo SGP Celular em '+new Date().toLocaleString('pt-BR'),{c:1,z:.8});
   T(hd.rod||'',{c:1,z:.9});T('Consultado no SGP Celular em '+new Date().toLocaleString('pt-BR'),{c:1,z:.75,cinza:1});return L;}
-async function pzCanvas(r){
+async function pzCanvasSimples(r){
   const S=2,W=600,P=26,F='"Courier New",Courier,monospace',lh=z=>Math.round(25*(z||1));const L=pzLinhas(r),hd=(PZ&&PZ.hd)||{};
   const cv=document.createElement('canvas'),g=cv.getContext('2d');
   let logo=null;if(hd.logo){logo=await new Promise(ok=>{const im=new Image();im.onload=()=>ok(im);im.onerror=()=>ok(null);im.src=hd.logo;});}
@@ -708,6 +709,110 @@ async function pzCanvas(r){
       g.textAlign='left';g.fillText(o.k,P,o.y);if(o.dir){g.textAlign='right';g.fillText(o.v,W-P,o.y);}else g.fillText(o.v,P+o.kw,o.y);g.textAlign='left';return;}
     if(o.c){g.textAlign='center';g.fillText(o.t,W/2,o.y);g.textAlign='left';}else g.fillText(o.t,P,o.y);});
   return cv;}
+
+/* ---------- ticket igual ao impresso pelo SGP (v7) ---------- */
+const PZQR=(()=>{
+  const EXP=new Array(512),LOG=new Array(256);let x=1;for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&256)x^=0x11d;}for(let i=255;i<512;i++)EXP[i]=EXP[i-255];
+  const mul=(a,b)=>a&&b?EXP[LOG[a]+LOG[b]]:0;
+  function gen(n){let g=[1];for(let i=0;i<n;i++){const ng=new Array(g.length+1).fill(0);for(let j=0;j<g.length;j++){ng[j]^=g[j];ng[j+1]^=mul(g[j],EXP[i]);}g=ng;}return g;}
+  function rs(data,n){const g=gen(n);const r=new Array(n).fill(0);for(const d of data){const f=d^r[0];r.shift();r.push(0);if(f)for(let j=0;j<n;j++)r[j]^=mul(g[j+1],f);}return r;}
+  // [ecPorBloco, [[nBlocos, dadosPorBloco],...]] nível M
+  const TB={1:[10,[[1,16]]],2:[16,[[1,28]]],3:[26,[[1,44]]],4:[18,[[2,32]]],5:[24,[[2,43]]],6:[16,[[4,27]]]};
+  const AL={1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],6:[6,34]};
+  function make(text){
+    const bytes=[...new TextEncoder().encode(text)];
+    let v=1;for(;v<=6;v++){const cap=TB[v][1].reduce((s,[n,d])=>s+n*d,0);if(4+8+bytes.length*8<=cap*8)break;}
+    if(v>6)throw new Error('texto longo demais para o QR');
+    const [ec,groups]=TB[v];const cap=groups.reduce((s,[n,d])=>s+n*d,0);
+    const bits=[];const put=(val,len)=>{for(let i=len-1;i>=0;i--)bits.push((val>>i)&1);};
+    put(4,4);put(bytes.length,8);bytes.forEach(b=>put(b,8));
+    for(let i=0;i<4&&bits.length<cap*8;i++)bits.push(0);while(bits.length%8)bits.push(0);
+    const cw=[];for(let i=0;i<bits.length;i+=8)cw.push(parseInt(bits.slice(i,i+8).join(''),2));
+    for(let p=0;cw.length<cap;p++)cw.push(p%2?0x11:0xEC);
+    const blocks=[];let k=0;groups.forEach(([n,d])=>{for(let i=0;i<n;i++){const dd=cw.slice(k,k+d);k+=d;blocks.push({d:dd,e:rs(dd,ec)});}});
+    const out=[];const md=Math.max(...blocks.map(b=>b.d.length));
+    for(let i=0;i<md;i++)blocks.forEach(b=>{if(i<b.d.length)out.push(b.d[i]);});
+    for(let i=0;i<ec;i++)blocks.forEach(b=>out.push(b.e[i]));
+    const N=17+4*v;const M=Array.from({length:N},()=>new Array(N).fill(null));const R=Array.from({length:N},()=>new Array(N).fill(false));
+    const set=(r,c,val)=>{M[r][c]=val;R[r][c]=true;};
+    const finder=(r,c)=>{for(let i=-1;i<=7;i++)for(let j=-1;j<=7;j++){const rr=r+i,cc=c+j;if(rr<0||cc<0||rr>=N||cc>=N)continue;
+      const on=(i>=0&&i<=6&&(j===0||j===6))||(j>=0&&j<=6&&(i===0||i===6))||(i>=2&&i<=4&&j>=2&&j<=4);set(rr,cc,on);}};
+    finder(0,0);finder(0,N-7);finder(N-7,0);
+    for(let i=8;i<N-8;i++){set(6,i,i%2===0);set(i,6,i%2===0);}
+    const al=AL[v];for(const r of al)for(const c of al){if((r<9&&c<9)||(r<9&&c>N-10)||(r>N-10&&c<9))continue;
+      for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++)set(r+i,c+j,Math.max(Math.abs(i),Math.abs(j))!==1);}
+    for(let i=0;i<9;i++){if(!R[8][i])set(8,i,false);if(!R[i][8])set(i,8,false);}
+    for(let i=0;i<8;i++){set(8,N-1-i,false);set(N-1-i,8,false);}
+    set(N-8,8,true); // módulo escuro
+    const dbits=[];out.forEach(b=>{for(let i=7;i>=0;i--)dbits.push((b>>i)&1);});
+    let bi=0,up=true;for(let c=N-1;c>0;c-=2){if(c===6)c--;for(let t=0;t<N;t++){const r=up?N-1-t:t;for(let j=0;j<2;j++){const cc=c-j;if(!R[r][cc]){M[r][cc]=bi<dbits.length?!!dbits[bi]:false;bi++;}}}up=!up;}
+    const MASKS=[(r,c)=>(r+c)%2===0,(r,c)=>r%2===0,(r,c)=>c%3===0,(r,c)=>(r+c)%3===0,(r,c)=>(Math.floor(r/2)+Math.floor(c/3))%2===0,(r,c)=>(r*c)%2+(r*c)%3===0,(r,c)=>((r*c)%2+(r*c)%3)%2===0,(r,c)=>((r+c)%2+(r*c)%3)%2===0];
+    const fmtBits=m=>{const d=(0<<3)|m;let b=d<<10;for(let i=14;i>=10;i--)if(b&(1<<i))b^=0x537<<(i-10);return ((d<<10)|b)^0x5412;};
+    function build(m){const A=M.map((row,r)=>row.map((val,c)=>R[r][c]?val:(val!==MASKS[m](r,c))));
+      const f=fmtBits(m);const fb=i=>((f>>i)&1)===1;
+      for(let i=0;i<=5;i++)A[8][i]=fb(14-i);A[8][7]=fb(8);A[8][8]=fb(7);A[7][8]=fb(6);for(let i=9;i<15;i++)A[14-i][8]=fb(14-i);
+      for(let i=0;i<8;i++)A[N-1-i][8]=fb(14-i);for(let i=8;i<15;i++)A[8][N-15+i]=fb(14-i);
+      A[N-8][8]=true;return A;}
+    function pen(A){let p=0;
+      for(let r=0;r<N;r++){let run=1;for(let c=1;c<N;c++){if(A[r][c]===A[r][c-1]){run++;if(run===5)p+=3;else if(run>5)p++;}else run=1;}}
+      for(let c=0;c<N;c++){let run=1;for(let r=1;r<N;r++){if(A[r][c]===A[r-1][c]){run++;if(run===5)p+=3;else if(run>5)p++;}else run=1;}}
+      for(let r=0;r<N-1;r++)for(let c=0;c<N-1;c++){const q=A[r][c];if(q===A[r][c+1]&&q===A[r+1][c]&&q===A[r+1][c+1])p+=3;}
+      const pat=[1,0,1,1,1,0,1,0,0,0,0],pat2=[0,0,0,0,1,0,1,1,1,0,1];
+      for(let r=0;r<N;r++)for(let c=0;c<=N-11;c++){let a=true,b=true;for(let k=0;k<11;k++){if(+A[r][c+k]!==pat[k])a=false;if(+A[r][c+k]!==pat2[k])b=false;}if(a)p+=40;if(b)p+=40;}
+      for(let c=0;c<N;c++)for(let r=0;r<=N-11;r++){let a=true,b=true;for(let k=0;k<11;k++){if(+A[r+k][c]!==pat[k])a=false;if(+A[r+k][c]!==pat2[k])b=false;}if(a)p+=40;if(b)p+=40;}
+      let dark=0;A.forEach(row=>row.forEach(q=>{if(q)dark++;}));p+=Math.floor(Math.abs(dark*100/(N*N)-50)/5)*10;return p;}
+    let best=null,bp=1e9;for(let m=0;m<8;m++){const A=build(m);const p=pen(A);if(p<bp){bp=p;best=A;}}
+    return best;
+  }
+  function svg(text,px){const A=make(text);const N=A.length,q=4,S=N+2*q;let d='';
+    A.forEach((row,r)=>row.forEach((on,c)=>{if(on)d+=`M${c+q},${r+q}h1v1h-1z`;}));
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${S} ${S}" width="${px}" height="${px}" shape-rendering="crispEdges"><rect width="${S}" height="${S}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;}
+  return {make,svg};
+})();
+const PZ_TK_CSS=".tk{width:var(--tkw,72mm);zoom:var(--tkz,1);margin-left:var(--tkml,0mm);background:#fff;color:#000;font-family:Arial,Helvetica,sans-serif;font-size:11px;padding:3mm 2mm;line-height:1.25;overflow:hidden}\n.tk .v{overflow-wrap:anywhere}.tk .w span,.tk .w b{white-space:nowrap}\n.tk svg{max-width:100%}\n.tk .logo{text-align:center;margin:4px 0}\n.tk .logo img{max-width:45mm;max-height:22mm}\n.tk2{font-family:\"Courier New\",Courier,monospace;font-size:11px;line-height:1.3}\n.tk2 .cab{text-align:center;font-size:10px;line-height:1.3}.tk2 .cab .rz{font-weight:700;font-size:13.5px;letter-spacing:.3px;margin-bottom:1px}\n.tk2 .dupla{border-top:3px double #000;margin:5px 0}.tk2 .tr{border-top:1px dashed #000;margin:5px 0}\n.tk2 .nt{text-align:center;font-weight:700;font-size:13.5px;letter-spacing:.3px}\n.tk2 .st{font-weight:700;font-size:11.5px;margin:2px 0 1px}\n.tk2 .ln{display:flex;gap:6px;justify-content:flex-start}.tk2 .lk{flex:none;white-space:nowrap}.tk2 .lv{overflow-wrap:anywhere;text-transform:uppercase}\n.tk2 .ln.nu .lv{text-transform:none}\n.tk2 .ln.pz,.tk2 .ln.tot{justify-content:space-between}.tk2 .ln.pz .lv,.tk2 .ln.tot .lv{text-align:right;white-space:nowrap;text-transform:none}\n.tk2 .ln.tot{font-weight:700;font-size:13px;margin:2px 0}\n.tk2 .nota{font-size:9px;text-align:right}\n.tk2 .ctr{text-align:center;font-size:10px}\n.tk2 .ass{display:flex;gap:6px;align-items:flex-end;margin:4px 0}.tk2 .asl{flex:1;min-width:0}\n.tk2 .sig{margin-top:26px;border-top:1px solid #000;text-align:center;font-size:9.5px;padding-top:2px}\n.tk2 .qr{flex:none;text-align:center;font-size:8px;line-height:1.25}.tk2 .qr svg{width:22mm;height:22mm;display:block;margin:0 auto 2px}\n.tk2 .via{margin-top:4px}";
+const pzHs=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h;};
+function pzCodAut(qk,r){const s=[qk,r.ticket,r.placa||'',Math.round(r.liq||0),(r.saida||'').slice(0,16)].join('|');const h1=pzHs(s),h2=pzHs(s.split('').reverse().join('')+'#SGP');
+  return ((h1>>>0).toString(16).padStart(8,'0')+(h2>>>0).toString(16).padStart(8,'0')).slice(0,12).toUpperCase().replace(/(.{4})(?=.)/g,'$1-');}
+function pzNomeCurto(n,q){q=q||2;const ws=String(n||'').trim().split(/\s+/).filter(Boolean),lig=/^(DE|DA|DO|DAS|DOS|E|&|-)$/i,suf=/^(LTDA\.?|S\.?\/?A\.?|SA|ME|EPP|EIRELI|MEI|CIA\.?)$/i;
+  const out=[];let k=0;for(const w of ws){if(suf.test(w))continue;if(lig.test(w)){if(k>0&&k<q)out.push(w);continue;}out.push(w);k++;if(k>=q)break;}
+  while(out.length&&lig.test(out[out.length-1]))out.pop();return out.join(' ')||String(n||'');}
+const pzInt=n=>(n==null||n===''||isNaN(n))?'':Number(n).toLocaleString('pt-BR');
+const pzDT=s=>{if(!s)return '';const [d,t]=s.split('T');const [y,m,dd]=d.split('-');return dd+'/'+m+'/'+y+' '+((t||'').length===5?t+':00':t||'');};
+function pzTicketHTML(r){const hd=(PZ&&PZ.hd)||{},val=pzVal(),V=x=>esc(x==null?'':x);
+  const L=(k,v,cls)=>'<div class="ln'+(cls?' '+cls:'')+'"><span class="lk">'+k+'</span><span class="lv">'+v+'</span></div>',T=t=>'<div class="st">'+t+'</div>',TR='<div class="tr"></div>',DU='<div class="dupla"></div>';
+  const obs=[r.lo?'DESCARGA: '+r.lo:'',r.obs].filter(Boolean).join(' | ');let qr='';
+  if(r.au){try{const raw=r.au.replace(/-/g,'');qr='<div class="qr">'+PZQR.svg('SGP|T='+r.t+'|P='+(r.pl||'')+'|L='+Math.round(r.lq||0)+'|D='+(r.s||'').slice(0,16)+'|V='+raw,78)+'<div>Consulta<br>Autenticidade<br><b>'+V(r.au)+'</b></div></div>';}catch(e){qr='';}}
+  const agora=new Date(),p2=x=>String(x).padStart(2,'0'),emit=p2(agora.getDate())+'/'+p2(agora.getMonth()+1)+'/'+agora.getFullYear()+' '+p2(agora.getHours())+':'+p2(agora.getMinutes())+':'+p2(agora.getSeconds());
+  return '<div class="tk tk2">'+(hd.logo?'<div class="logo"><img src="'+hd.logo+'"></div>':'')+
+   '<div class="cab"><div class="rz">'+V(hd.rz)+'</div>'+(hd.l||[]).map(x=>'<div>'+V(x)+'</div>').join('')+'</div>'+DU+
+   '<div class="nt">'+V(hd.tit||'TICKET DE PESAGEM')+' Nº '+String(r.t||'').padStart(6,'0')+'</div>'+DU+
+   L('Data Entrada:',V(pzDT(r.e)))+L('Data Saída:',V(pzDT(r.s)))+L('Operador:',V(r.op||'')+(r.ab?' (aberto por '+V(r.ab)+')':''),'nu')+TR+
+   T('VEÍCULO / MOTORISTA')+L('Placa:',V(r.pl)+(r.md?' &nbsp;|&nbsp; '+V(r.md):''))+L('Motorista:',V(r.mo))+(r.tr?L('Transportadora:',V(pzNomeCurto(r.tr))+(r.tc?'<br>CNPJ: '+V(r.tc):'')):'')+TR+
+   (r.fo?T('ORIGEM / FORNECEDOR')+L('Fornecedor:',V(pzNomeCurto(r.fo)))+(r.fc?L('CNPJ:',V(r.fc)):'')+TR:'')+
+   T('CLIENTE / DESTINO')+L('Cliente:',V(pzNomeCurto(r.cl||'')))+(r.cc?L('CNPJ:',V(r.cc)):'')+(r.lo?L('Destino:',V(r.lo)):'')+TR+
+   T('MATERIAL / PRODUTO')+L('Produto:',(r.mc?V(r.mc)+' - ':'')+V(r.mat))+(val&&r.pm!=null?L('Preço/Ton:',brl(r.pm)):'')+(val&&r.pf!=null?L('Frete/Ton:',brl(r.pf)):'')+TR+
+   T('PESAGEM (kg)')+L('PESO BRUTO '+(r.bw||'')+':',r.br!=null?pzInt(r.br)+' kg':'','pz')+L('TARA '+(r.tw||'')+':',r.ta!=null?pzInt(r.ta)+' kg':'','pz')+
+   (r.tcad?'<div class="nota">* tara do cadastro de equipamentos'+(String(r.tcad).length===10?' ('+String(r.tcad).split('-').reverse().join('/')+')':'')+'</div>':'')+TR+
+   L('PESO LÍQUIDO:',r.lq!=null?pzInt(r.lq)+' kg':'','tot')+L('EM TONELADAS:',r.lq!=null?tonS(r.lq)+' t':'','pz')+
+   (val&&r.vm!=null?L(r.vf!=null?'VALOR MATERIAL:':'VALOR TOTAL:',brl(r.vm),r.vf!=null?'pz':'tot'):'')+(val&&r.vf!=null?L('VALOR FRETE:',brl(r.vf),'pz')+L('VALOR TOTAL:',brl(r.vt),'tot'):'')+
+   (r.ib!=null?'<div class="nota">TARA: '+(r.tcad?'cadastro':r.it?'indicador':'digitada')+' · BRUTO: '+(r.ib?'indicador':'digitado')+'</div>':'')+
+   (r.ped?L('PEDIDO Nº:',V(r.ped),'pz'):'')+(obs?TR+L('Obs:',V(obs),'nu'):'')+DU+
+   '<div class="ass"><div class="asl"><div class="sig">Assinatura do Motorista</div><div class="sig">Operador: '+V(r.op||'')+'</div></div>'+qr+'</div>'+DU+
+   '<div class="ctr">'+V(hd.rod||'Obrigado pela preferência! Dirija com cuidado.')+'</div>'+
+   '<div class="via">Gerado pelo SGP Celular em '+emit+'</div></div>';}
+// transforma o ticket (HTML) em imagem nítida; se o aparelho não deixar, usa o desenho simples
+async function pzCanvas(r){
+  try{const S=3,box=document.createElement('div');box.setAttribute('style','position:fixed;left:-9999px;top:0;background:#fff;width:max-content');
+    box.innerHTML='<style>*{box-sizing:border-box}.tk .via{text-align:center;font-size:9px;margin-top:6px;color:#333}'+PZ_TK_CSS+'.tk{zoom:1;margin:0;width:72mm}</style>'+pzTicketHTML(r);document.body.appendChild(box);
+    const im0=box.querySelector('.logo img');if(im0&&!im0.complete)await new Promise(ok=>{im0.onload=im0.onerror=ok;setTimeout(ok,1500);});
+    const tk=box.querySelector('.tk'),W=Math.ceil(tk.getBoundingClientRect().width),H=Math.ceil(tk.getBoundingClientRect().height);
+    box.setAttribute('style','background:#fff;width:'+W+'px');const xml=new XMLSerializer().serializeToString(box);box.remove();
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'"><foreignObject x="0" y="0" width="'+W+'" height="'+H+'">'+xml+'</foreignObject></svg>';
+    const img=await new Promise((ok,er)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>er(new Error('img'));i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);});
+    const cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);g.drawImage(img,0,0,cv.width,cv.height);
+    cv.toDataURL('image/png'); // confere se o aparelho liberou a imagem (senão cai no desenho simples)
+    return cv;}
+  catch(e){console.warn('ticket HTML -> imagem falhou, usando desenho simples',e);return pzCanvasSimples(r);}}
 const pzNome=r=>'Ticket_'+String(r.t||'')+'_'+String(r.pl||'').replace(/[^A-Z0-9]/gi,'');
 async function pzAbrir(id){const r=((PZ&&PZ.p)||[]).find(x=>x.id===id);if(!r)return;PZ_ATUAL=r;
   $('pzDetTit').textContent='Ticket nº '+r.t+' · '+(r.pl||'');$('pzDetImg').removeAttribute('src');$('pzDet').style.display='flex';
