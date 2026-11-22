@@ -86,6 +86,17 @@ input[data-pick]::placeholder{color:#90a4ae}
 .placaM i{display:block;background:#1e4fa8;color:#fff;font-style:normal;font-size:10px;font-weight:800;letter-spacing:3px;padding:2px 0}
 .placaM b{display:block;font-size:36px;letter-spacing:4px;font-family:"Arial Black",Arial,sans-serif;color:#10151d;line-height:1.15;padding:2px 0 3px}
 .tag{border-radius:3px}
+/* v6: consulta de pesagens */
+.pzTot{display:flex;gap:6px;margin:10px 0 4px}.pzTot div{flex:1;background:#f1f5f9;border:1px solid var(--bd);border-radius:6px;padding:7px 8px}.pzTot small{display:block;font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase}.pzTot b{font-size:15px;color:var(--n1)}
+.pz{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid #eef2f6;cursor:pointer}.pz:last-child{border:0}.pz:active{background:#eef4fc}
+.pz .tx{flex:1;min-width:0}.pz .tx b{display:block;font-size:15px}.pz .tx small{display:block;color:var(--mut);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pz .ps{text-align:right}.pz .ps b{display:block;color:var(--ok);font-size:15px}.pz .ps small{color:var(--mut);font-size:11.5px}
+#pzDet{position:fixed;inset:0;z-index:45;background:rgba(5,12,30,.96);display:none;flex-direction:column}
+#pzDet .tp{display:flex;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;color:#fff;font-weight:700}
+#pzDet .tp span{flex:1}#pzDet .tp button{border:0;background:rgba(255,255,255,.15);color:#fff;font:inherit;font-weight:700;border-radius:6px;padding:8px 12px}
+#pzDet .im{flex:1;overflow:auto;padding:0 12px;text-align:center}#pzDet .im img{width:100%;max-width:520px;background:#fff;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+#pzDet .bs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));background:var(--n1)}
+#pzDet .bs .btn{padding:13px 8px;font-size:15px}#pzDet .bs .w{grid-column:1/-1}
 nav.tabbar{background:var(--n1);border-top:0;flex-wrap:wrap;padding:0 4px calc(4px + env(safe-area-inset-bottom))}
 nav.tabbar button{color:#7dd3fc;border-top:3px solid transparent;font-weight:600;padding:7px 0 5px}
 nav.tabbar button.on{color:#fff;border-top-color:var(--c2);background:rgba(255,255,255,.07)}
@@ -177,6 +188,20 @@ label.ck{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13.5p
   <div class="card"><h2>Meus lançamentos</h2><div id="lista"></div></div>
 </section>
 
+<!-- ================= PESAGENS (consulta) ================= -->
+<section id="s-pes" class="sec">
+  <div class="card">
+    <h2>Pesagens concluídas</h2>
+    <input id="pzBusca" placeholder="Buscar placa, ticket, cliente, motorista…" autocomplete="off">
+    <div style="height:8px"></div>
+    <div class="chips" id="pzPer"><button data-p="hoje">Hoje</button><button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="tudo">Tudo</button></div>
+    <div class="pzTot" id="pzTot"></div>
+    <div id="pzLista"></div>
+    <button class="btn" id="pzMais" style="display:none;margin-top:8px">Mostrar mais</button>
+    <p class="hint" id="pzInfo" style="text-align:center;margin:10px 0 0"></p>
+  </div>
+</section>
+
 <!-- ================= CADASTROS ================= -->
 <section id="s-cad" class="sec">
   <div class="card">
@@ -234,6 +259,7 @@ label.ck{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13.5p
   <div class="stbar" id="stbar"></div>
   <button data-s="s-ini" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h4l3 3v4h-7"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg>Nova carga</button>
   <button data-s="s-lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lançamentos <span id="nbFila"></span></button>
+  <button data-s="s-pes" id="tbPes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h5"/></svg>Pesagens</button>
   <button data-s="s-cad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Cadastros</button>
   <button data-s="s-cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Configurar</button>
 </nav>
@@ -243,6 +269,15 @@ label.ck{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13.5p
   <div class="gt">Enquadre a placa no retângulo</div>
   <div class="guide"></div>
   <div class="bar"><button class="btn" id="camX" style="flex:1">Cancelar</button><button class="btn p" id="camOk" style="flex:2">Ler placa</button></div>
+</div>
+<div id="pzDet">
+  <div class="tp"><span id="pzDetTit">Ticket</span><button type="button" id="pzDetX">Fechar ✕</button></div>
+  <div class="im"><img id="pzDetImg" alt="Ticket de pesagem"></div>
+  <div class="bs">
+    <button class="btn p" id="pzPng" type="button">🖼 Salvar imagem</button>
+    <button class="btn n" id="pzPdf" type="button">📄 Salvar PDF</button>
+    <button class="btn g w" id="pzShare" type="button">📤 Enviar (WhatsApp, e-mail…)</button>
+  </div>
 </div>
 <div id="pk">
   <header><img src="icon-192.png" width="34" height="34" style="border-radius:9px"><div class="tt"><b>SGP</b><small>Gestão de Carga e Pesagem</small></div></header>
@@ -333,7 +368,7 @@ async function token(interativo){const m=await msalApp();const acc=m.getActiveAc
   catch(e){if(interativo){await m.acquireTokenRedirect({scopes:SCOPES});}throw e;}}
 const gUrl=p=>'https://graph.microsoft.com/v1.0/me/drive/root:/'+[ST.cfg.pasta||'SGP Dados',...p.split('/')].map(encodeURIComponent).join('/');
 const ARM={
-  async ler(p){if(ST.cfg.modo==='demo')return p==='celular/cadastro.json'?DEMO:p==='celular/status.json'?{itens:ST.demoStatus||{}}:null;
+  async ler(p){if(ST.cfg.modo==='demo')return p==='celular/pesagens.json'?pzDemo():p==='celular/cadastro.json'?DEMO:p==='celular/status.json'?{itens:ST.demoStatus||{}}:null;
     if(ST.cfg.modo==='pasta'){const h=await pastaArq(p,false);if(!h)return null;return JSON.parse(await (await h.getFile()).text());}
     const r=await fetch(gUrl(p)+':/content',{headers:{Authorization:'Bearer '+await token()}});if(r.status===404)return null;if(!r.ok)throw new Error('OneDrive '+r.status);return r.json();},
   async gravar(p,obj){const txt=JSON.stringify(obj);
@@ -362,6 +397,7 @@ async function sincronizar(manual){
     for(const e of ST.fila.slice()){await ARM.gravar('celular/entrada/'+e.id+'.json',e);ST.fila=ST.fila.filter(x=>x.id!==e.id);e.enviadoEm=new Date().toISOString();ST.env.unshift(e);}
     const st=await ARM.ler('celular/status.json');if(st&&st.itens)ST.status=Object.assign(ST.status||{},st.itens);
     ST.lastSync=new Date().toISOString();ST.env=ST.env.slice(0,300);
+    if($('s-pes').classList.contains('on'))pzCarregar(false);
   }catch(e){erro=e.message||String(e);}
   SYNC=false;sv();ui();if(manual)toast(erro?'Não sincronizou: '+erro:'Sincronizado.');ST._erro=erro;stInfo();
 }
@@ -389,10 +425,10 @@ $('lgCfg').onclick=e=>{e.preventDefault();$('login').style.display='none';mostra
 $('btSair').onclick=()=>{ST.user=null;sv();telaLogin();};
 
 /* ---------- navegação / ui ---------- */
-const SB_TIT={'s-ini':'Nova carga','s-lista':'Lançamentos','s-cad':'Cadastros','s-cfg':'Configurar'};
-function mostrar(s){$('sbTit').textContent=SB_TIT[s]||'';document.querySelectorAll('.sec').forEach(x=>x.classList.toggle('on',x.id===s));document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='s-lista')lista();if(s==='s-cfg')cfgUI();if(s==='s-cad')cdUI();}
+const SB_TIT={'s-ini':'Nova carga','s-lista':'Lançamentos','s-pes':'Pesagens concluídas','s-cad':'Cadastros','s-cfg':'Configurar'};
+function mostrar(s){$('sbTit').textContent=SB_TIT[s]||'';document.querySelectorAll('.sec').forEach(x=>x.classList.toggle('on',x.id===s));document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='s-lista')lista();if(s==='s-cfg')cfgUI();if(s==='s-cad')cdUI();if(s==='s-pes')pzUI();}
 document.querySelectorAll('nav.tabbar button').forEach(b=>b.onclick=()=>{if(!ST.user&&b.dataset.s!=='s-cfg'){telaLogin();return;}mostrar(b.dataset.s);});
-function ui(){$('sbUser').innerHTML=ST.user?'Usuário | <b>'+esc(ST.user.nome)+'</b>':'sem usuário';
+function ui(){if($('tbPes'))$('tbPes').style.display=pzPode()?'':'none';if($('s-pes').classList.contains('on')&&!pzPode())mostrar('s-ini');$('sbUser').innerHTML=ST.user?'Usuário | <b>'+esc(ST.user.nome)+'</b>':'sem usuário';
   const on=ST.cfg.modo==='demo'?true:navigator.onLine;const nf=ST.fila.length;
   $('hdNet').className='pill '+(on?'on':'off');$('hdNet').textContent=(ST.cfg.modo==='demo'?'DEMO':on?'ONLINE':'SEM INTERNET')+(nf?' · '+nf+' na fila':'');
   $('nbFila').textContent=nf?'('+nf+')':'';const nfc=(ST.filaCad||[]).length;$('stbar').innerHTML='<span><i class="'+(on?'':'off')+'"></i>'+(ST.cfg.modo==='demo'?'Demonstração':!on?'Sem internet':ST.lastSync?'Sincronizado '+new Date(ST.lastSync).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'Não sincronizado')+'</span><span>Fila: '+(nf+nfc)+'</span>'+(ST.cfg.aparelho?'<span>'+esc(ST.cfg.aparelho)+'</span>':'');if($('s-cad').classList.contains('on'))cdLista();if($('s-lista').classList.contains('on'))lista();}
@@ -583,6 +619,115 @@ function lista(){const it=[...ST.fila.map(e=>({...e,_f:1})),...ST.env];
   $('lista').innerHTML=it.length?it.slice(0,100).map(e=>{const s=(ST.status||{})[e.id];let tag;
     if(e._f)tag='<span class="tag t-fila">NA FILA</span>';else if(!s)tag='<span class="tag t-env">ENVIADO</span>';else if(s.status==='cancelado')tag='<span class="tag t-canc">CANCELADO</span>';else if(s.status==='fechado')tag=`<span class="tag t-conc">Nº ${esc(s.ticket)} · ${s.liq!=null?(s.liq/1000).toLocaleString('pt-BR',{minimumFractionDigits:3})+' t':'CONCLUÍDA'}</span>`;else tag=`<span class="tag t-tk">TICKET Nº ${esc(s.ticket)}</span>`;
     return `<div class="item"><div class="tx"><b>${esc(e.placa)} <small>· ${esc(e.id)}</small></b><small>${esc(e.material||'')}${e.local?' · '+esc(e.local):''} · ${fmtDT(e.horaLocal)}</small></div>${tag}</div>`;}).join(''):'<p class="hint">Nenhum lançamento ainda.</p>';}
+
+/* ---------- consulta de pesagens concluídas (v6) ---------- */
+let PZ=null,PZ_T=0,PZ_LOAD=false,PZ_PER='30',PZ_N=50,PZ_ATUAL=null;
+idbGet('pes').then(d=>{if(d&&!PZ)PZ=d;});
+function pzUsr(){if(!ST.user||!ST.cad)return null;return (ST.cad.users||[]).find(x=>x.login===ST.user.login)||null;}
+function pzPode(){const u=pzUsr();return !!u&&(u.perfil==='admin'||!u.perms||!!u.perms.relatorios);}
+function pzVal(){const u=pzUsr();return !!u&&(u.perfil==='admin'||!u.perms||!!u.perms.valores);}
+const brl=n=>n==null||isNaN(n)?'':Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const tonS=n=>n==null?'':(n/1000).toLocaleString('pt-BR',{minimumFractionDigits:3,maximumFractionDigits:3});
+const dtBR=s=>{if(!s)return '';const [d,t]=s.split('T');const [y,m,dd]=d.split('-');return dd+'/'+m+'/'+y+(t?' '+t.slice(0,8):'');};
+async function pzCarregar(force){
+  if(PZ_LOAD)return;if(!force&&PZ&&Date.now()-PZ_T<120000)return;PZ_LOAD=true;$('pzInfo').textContent='Atualizando…';
+  try{if(ST.cfg.modo!=='demo'&&!navigator.onLine)throw new Error('sem internet');const d=await ARM.ler('celular/pesagens.json');PZ_T=Date.now();
+    if(d){PZ=d;idbPut('pes',ST.cfg.modo==='demo'?null:d);}else if(!PZ)PZ={p:[],hd:{},faltando:1};}
+  catch(e){toast('Não atualizou as pesagens: '+(e.message||e));}
+  PZ_LOAD=false;pzRender();}
+function pzUI(){document.querySelectorAll('#pzPer button').forEach(b=>b.classList.toggle('on',b.dataset.p===PZ_PER));pzRender();pzCarregar(false);}
+document.querySelectorAll('#pzPer button').forEach(b=>b.onclick=()=>{PZ_PER=b.dataset.p;PZ_N=50;pzUI();});
+$('pzBusca').oninput=()=>{PZ_N=50;pzRender();};
+$('pzMais').onclick=()=>{PZ_N+=50;pzRender();};
+function pzFiltrados(){const p=(PZ&&PZ.p)||[];const q=String($('pzBusca').value||'').trim().toUpperCase();
+  let lim='';if(PZ_PER!=='tudo'){const d=new Date();if(PZ_PER!=='hoje')d.setDate(d.getDate()-Number(PZ_PER)+1);lim=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  return p.filter(r=>(!lim||(r.s||r.e||'').slice(0,10)>=lim)&&(!q||[r.t,r.pl,r.mo,r.cl,r.fo,r.tr,r.mat,r.lo,r.ped].some(v=>String(v||'').toUpperCase().includes(q))));}
+function pzRender(){
+  if(!$('pzLista'))return;const val=pzVal();
+  if(!PZ){$('pzLista').innerHTML='<p class="hint">Carregando as pesagens…</p>';$('pzTot').innerHTML='';$('pzMais').style.display='none';return;}
+  if(PZ.faltando){$('pzLista').innerHTML='<p class="hint">Ainda não há pesagens para consultar. O computador da balança precisa estar com o SGP 2.6.3 ou mais novo e com “Receber os lançamentos do celular” marcado.</p>';$('pzTot').innerHTML='';$('pzInfo').textContent='';$('pzMais').style.display='none';return;}
+  const a=pzFiltrados(),tot=a.reduce((s,r)=>s+(r.lq||0),0),vt=a.reduce((s,r)=>s+(r.vt||0),0);
+  $('pzTot').innerHTML='<div><small>Pesagens</small><b>'+int(a.length)+'</b></div><div><small>Toneladas</small><b>'+tonS(tot)+' t</b></div>'+(val&&vt?'<div><small>Valor</small><b>'+brl(vt).replace(/,\d\d$/,'')+'</b></div>':'');
+  $('pzLista').innerHTML=a.length?a.slice(0,PZ_N).map(r=>'<div class="pz" data-id="'+esc(r.id)+'"><div class="tx"><b>'+esc(r.pl||'—')+' <small style="display:inline;color:var(--mut);font-weight:600">· nº '+esc(r.t)+'</small></b><small>'+esc(dtBR(r.s).slice(0,16))+' · '+esc(r.mat||'')+'</small><small>'+esc(r.cl||r.fo||'')+'</small></div><div class="ps"><b>'+tonS(r.lq)+' t</b><small>'+int(r.lq)+' kg</small></div></div>').join(''):'<p class="hint">Nenhuma pesagem encontrada com esse filtro.</p>';
+  $('pzMais').style.display=a.length>PZ_N?'':'none';
+  $('pzInfo').textContent=PZ.gerado?'Atualizado pelo computador da balança em '+new Date(PZ.gerado).toLocaleString('pt-BR')+' · últimos 120 dias':'';
+  document.querySelectorAll('#pzLista .pz').forEach(el=>el.onclick=()=>pzAbrir(el.dataset.id));}
+
+// desenha o ticket numa imagem (mesmo modelo do ticket impresso)
+function pzLinhas(r){const val=pzVal(),hd=(PZ&&PZ.hd)||{},L=[];const T=(t,o)=>L.push(Object.assign({t},o||{}));
+  T(hd.rz||'',{c:1,b:1,z:1.25});(hd.l||[]).forEach(x=>T(x,{c:1,z:.9}));T('',{dupla:1});
+  T((hd.tit||'TICKET DE PESAGEM')+' Nº '+String(r.t||'').padStart(6,'0'),{c:1,b:1,z:1.15});T('',{dupla:1});
+  const K=(k,v,o)=>{if(v==null||v==='')return;L.push(Object.assign({k,v:String(v)},o||{}));};
+  K('Data Entrada:',dtBR(r.e));K('Data Saída:',dtBR(r.s));K('Operador:',r.op);T('',{tr:1});
+  T('VEÍCULO / MOTORISTA',{b:1});K('Placa:',(r.pl||'')+(r.md?'  |  '+r.md:''));K('Motorista:',r.mo);K('Transportadora:',r.tr);T('',{tr:1});
+  if(r.fo){T('ORIGEM / FORNECEDOR',{b:1});K('Fornecedor:',r.fo);T('',{tr:1});}
+  T('CLIENTE / DESTINO',{b:1});K('Cliente:',r.cl||'');K('Destino:',r.lo);T('',{tr:1});
+  T('MATERIAL / PRODUTO',{b:1});K('Produto:',(r.mc?r.mc+' - ':'')+(r.mat||''));if(val){K('Preço/Ton:',r.pm!=null?brl(r.pm):'');K('Frete/Ton:',r.pf!=null?brl(r.pf):'');}T('',{tr:1});
+  T('PESAGEM (kg)',{b:1});K('PESO BRUTO '+(r.bw||'')+':',r.br!=null?int(r.br)+' kg':'',{dir:1});K('TARA '+(r.tw||'')+':',r.ta!=null?int(r.ta)+' kg':'',{dir:1});T('',{tr:1});
+  K('PESO LÍQUIDO:',r.lq!=null?int(r.lq)+' kg':'',{dir:1,b:1,z:1.2,caixa:1});K('EM TONELADAS:',r.lq!=null?tonS(r.lq)+' t':'',{dir:1});
+  if(val){if(r.vm!=null)K(r.vf!=null?'VALOR MATERIAL:':'VALOR TOTAL:',brl(r.vm),{dir:1,b:r.vf==null});if(r.vf!=null){K('VALOR FRETE:',brl(r.vf),{dir:1});K('VALOR TOTAL:',brl(r.vt),{dir:1,b:1});}}
+  K('PEDIDO Nº:',r.ped,{dir:1});const ob=[r.lo?'DESCARGA: '+r.lo:'',r.obs].filter(Boolean).join(' | ');if(ob){T('',{tr:1});K('Obs:',ob);}
+  T('',{dupla:1});if(r.au){T('Código de autenticidade',{c:1,z:.85});T(r.au,{c:1,b:1});T('Confira no SGP: Relatórios › Verificar ticket',{c:1,z:.8});T('',{dupla:1});}
+  T(hd.rod||'',{c:1,z:.9});T('Consultado no SGP Celular em '+new Date().toLocaleString('pt-BR'),{c:1,z:.75,cinza:1});return L;}
+async function pzCanvas(r){
+  const S=2,W=600,P=26,F='"Courier New",Courier,monospace',lh=z=>Math.round(25*(z||1));const L=pzLinhas(r),hd=(PZ&&PZ.hd)||{};
+  const cv=document.createElement('canvas'),g=cv.getContext('2d');
+  let logo=null;if(hd.logo){logo=await new Promise(ok=>{const im=new Image();im.onload=()=>ok(im);im.onerror=()=>ok(null);im.src=hd.logo;});}
+  const fonte=(o)=>(o.b?'bold ':'')+Math.round(18*(o.z||1))+'px '+F;
+  // quebra o texto na largura
+  const quebra=(txt,larg,fo)=>{g.font=fo;const pal=String(txt).split(' ');const out=[];let cur='';pal.forEach(p=>{const t=cur?cur+' '+p:p;if(g.measureText(t).width>larg&&cur){out.push(cur);cur=p;}else cur=t;});out.push(cur);return out;};
+  const passo=[];let y=P;if(logo){const lw=Math.min(220,logo.width),lhh=logo.height*lw/logo.width;passo.push({logo:1,y,lw,lhh});y+=lhh+10;}
+  L.forEach(o=>{if(o.dupla||o.tr){passo.push(Object.assign({y},o));y+=o.dupla?14:12;return;}
+    const fo=fonte(o);
+    if(o.k!=null){g.font=fo;const kw=g.measureText(o.k+' ').width;
+      if(o.dir){passo.push(Object.assign({y,fo},o));y+=lh(o.z)+(o.caixa?8:0);return;}
+      const ls=quebra(o.v,W-2*P-kw,fo);ls.forEach((t,i)=>{passo.push({y,fo,k:i?'':o.k,v:t,kw,b:o.b});y+=lh(o.z);});return;}
+    const ls=quebra(o.t,W-2*P,fo);ls.forEach(t=>{passo.push(Object.assign({},o,{y,fo,t}));y+=lh(o.z);});});
+  const H=y+P;cv.width=W*S;cv.height=H*S;g.scale(S,S);g.fillStyle='#fff';g.fillRect(0,0,W,H);g.fillStyle='#111';g.strokeStyle='#111';g.textBaseline='top';
+  passo.forEach(o=>{
+    if(o.logo){g.drawImage(logo,(W-o.lw)/2,o.y,o.lw,o.lhh);return;}
+    if(o.dupla){g.lineWidth=1.5;g.beginPath();g.moveTo(P,o.y+3);g.lineTo(W-P,o.y+3);g.moveTo(P,o.y+7);g.lineTo(W-P,o.y+7);g.stroke();return;}
+    if(o.tr){g.lineWidth=1;g.setLineDash([5,4]);g.beginPath();g.moveTo(P,o.y+5);g.lineTo(W-P,o.y+5);g.stroke();g.setLineDash([]);return;}
+    g.font=o.fo;g.fillStyle=o.cinza?'#666':'#111';
+    if(o.k!=null){if(o.caixa){g.lineWidth=1.2;g.strokeRect(P-4,o.y-4,W-2*P+8,lh(o.z)+4);}
+      g.textAlign='left';g.fillText(o.k,P,o.y);if(o.dir){g.textAlign='right';g.fillText(o.v,W-P,o.y);}else g.fillText(o.v,P+o.kw,o.y);g.textAlign='left';return;}
+    if(o.c){g.textAlign='center';g.fillText(o.t,W/2,o.y);g.textAlign='left';}else g.fillText(o.t,P,o.y);});
+  return cv;}
+const pzNome=r=>'Ticket_'+String(r.t||'')+'_'+String(r.pl||'').replace(/[^A-Z0-9]/gi,'');
+async function pzAbrir(id){const r=((PZ&&PZ.p)||[]).find(x=>x.id===id);if(!r)return;PZ_ATUAL=r;
+  $('pzDetTit').textContent='Ticket nº '+r.t+' · '+(r.pl||'');$('pzDetImg').removeAttribute('src');$('pzDet').style.display='flex';
+  const cv=await pzCanvas(r);PZ_ATUAL.cv=cv;$('pzDetImg').src=cv.toDataURL('image/png');}
+$('pzDetX').onclick=()=>{$('pzDet').style.display='none';PZ_ATUAL=null;};
+const pzPngBlob=cv=>new Promise(ok=>cv.toBlob(ok,'image/png'));
+// PDF simples com a imagem do ticket (sem biblioteca: página do tamanho do ticket, largura de 80 mm)
+async function pzPdfBlob(cv){
+  const jpg=cv.toDataURL('image/jpeg',.92),bin=atob(jpg.split(',')[1]),img=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)img[i]=bin.charCodeAt(i);
+  const pw=226.77,ph=Math.round(pw*cv.height/cv.width*100)/100,enc=new TextEncoder(),partes=[],offs=[];let tam=0;
+  const add=x=>{const b=typeof x==='string'?enc.encode(x):x;partes.push(b);tam+=b.length;};
+  const obj=(n,txt)=>{offs[n]=tam;add(n+' 0 obj\n'+txt+'\nendobj\n');};
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pw+' '+ph+'] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>');
+  offs[4]=tam;add('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+cv.width+' /Height '+cv.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+img.length+' >>\nstream\n');add(img);add('\nendstream\nendobj\n');
+  const cs='q '+pw+' 0 0 '+ph+' 0 0 cm /Im1 Do Q';obj(5,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
+  const xr=tam;let x='xref\n0 6\n0000000000 65535 f \n';for(let i=1;i<=5;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+  add(x+'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+  return new Blob(partes,{type:'application/pdf'});}
+function pzBaixar(blob,nome){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=nome;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
+async function pzSalvar(tipo){const r=PZ_ATUAL;if(!r||!r.cv){toast('Aguarde o ticket aparecer.');return;}
+  try{const b=tipo==='pdf'?await pzPdfBlob(r.cv):await pzPngBlob(r.cv);pzBaixar(b,pzNome(r)+(tipo==='pdf'?'.pdf':'.png'));toast(tipo==='pdf'?'PDF salvo (veja em Downloads / Arquivos).':'Imagem salva (veja em Downloads / Galeria).',4000);}
+  catch(e){toast('Não foi possível salvar: '+(e.message||e));}}
+$('pzPng').onclick=()=>pzSalvar('png');$('pzPdf').onclick=()=>pzSalvar('pdf');
+$('pzShare').onclick=async()=>{const r=PZ_ATUAL;if(!r||!r.cv){toast('Aguarde o ticket aparecer.');return;}
+  const pdf=confirm('Enviar como PDF?\n\nOK = PDF    ·    Cancelar = imagem');
+  try{const b=pdf?await pzPdfBlob(r.cv):await pzPngBlob(r.cv);const f=new File([b],pzNome(r)+(pdf?'.pdf':'.png'),{type:b.type});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Ticket nº '+r.t,text:'Ticket de pesagem nº '+r.t+' · '+(r.pl||'')+' · '+tonS(r.lq)+' t'});}
+    else{pzBaixar(b,f.name);toast('Este aparelho não permite enviar direto: o arquivo foi salvo.',4000);}}
+  catch(e){if(e&&e.name!=='AbortError')toast('Não foi possível enviar: '+(e.message||e));}};
+function pzDemo(){const mats=['BRITA 1','PEDRISCO','AREIA MÉDIA','PÓ DE PEDRA'],pl=['ABC1D23','DEF4G56','HIJ7K89'],p=[];const pad=n=>String(n).padStart(2,'0');
+  for(let i=0;i<24;i++){const d=new Date(Date.now()-i*9*36e5),iso=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':00';const ta=14000+i*37%900,lq=12000+(i*1730)%16000,pm=80+(i%4)*5;
+    p.push({id:'demo'+i,t:String(280-i),e:iso,s:iso,op:'DEMO',pl:pl[i%3],mo:'MOTORISTA EXEMPLO',tr:'TRANSPORTES EXEMPLO',fo:'PEDREIRA MODELO',cl:'CONSTRUTORA EXEMPLO',lo:'OBRA CENTRO',mat:mats[i%4],ta,br:ta+lq,lq,tw:'(Entrada)',bw:'(Saída)',pm,pf:20,vm:Math.round(lq/1000*pm*100)/100,vf:Math.round(lq/1000*20*100)/100,vt:Math.round(lq/1000*(pm+20)*100)/100,au:'DEMO-0000-'+String(1000+i)});}
+  return {v:1,gerado:new Date().toISOString(),hd:{rz:'EMPRESA DEMONSTRAÇÃO',l:['CNPJ 00.000.000/0001-00'],tit:'TICKET DE PESAGEM',rod:'Obrigado pela preferência!'},p};}
 
 /* ---------- início ---------- */
 if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
