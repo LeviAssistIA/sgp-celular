@@ -46,6 +46,12 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--c1);box-
 .sug{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .sug button{border:2px solid var(--c1);background:#fff;color:var(--n2);font:inherit;font-weight:900;letter-spacing:1px;padding:8px 12px;border-radius:10px;font-size:16px}
 .sug button.best{background:var(--c1);color:#fff}
+/* cadastros (v4) */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}.chips button{border:1px solid var(--bd);background:#f1f5f9;border-radius:999px;padding:8px 12px;font:inherit;font-size:13.5px;font-weight:700;color:var(--n2)}.chips button.on{background:var(--n2);color:#fff;border-color:var(--n2)}
+.mdl{position:fixed;inset:0;background:rgba(15,27,45,.55);z-index:35;display:none;align-items:flex-end;justify-content:center}.mdl.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:640px;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}
+.falta{border:1px solid var(--bd);border-left:5px solid var(--warn);border-radius:12px;padding:10px 12px;margin-top:10px}.falta b.t{font-size:15px}
+.t-ok{background:#dcfce7;color:#166534}
 nav.tabbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--bd);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:6}
 nav.tabbar button{flex:1;border:0;background:none;font:inherit;font-size:11.5px;font-weight:700;color:var(--mut);padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px}
 nav.tabbar button.on{color:var(--c1)}
@@ -54,26 +60,91 @@ nav.tabbar svg{width:22px;height:22px}
 #login{position:fixed;inset:0;z-index:40;background:radial-gradient(800px 500px at 20% 0%,var(--n2),var(--n1));display:flex;align-items:center;justify-content:center;padding:20px}
 #login .card{width:100%;max-width:380px}
 .prog{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:8px}.prog i{display:block;height:100%;background:var(--c1);width:0;transition:width .2s}
+/* ===== visual no padrão do SGP do computador (v5) ===== */
+:root{--n1:#0b1b3f;--n2:#16306b;--c1:#1e5aa8;--c2:#22d3ee;--ok:#2e7d32;--bg:#e9eef4;--tx:#1b2430;--mut:#607d8b;--bd:#d5dde5}
+body{background:var(--bg);font-size:14.5px}
+header{background:linear-gradient(180deg,var(--n1),var(--n2));padding:calc(10px + env(safe-area-inset-top)) 14px 10px}
+header img{background:#fff;padding:2px}
+header b{font-size:18px;letter-spacing:1.5px}header small{color:#7dd3fc;font-size:11px}
+.pill{background:rgba(255,255,255,.14)}.pill.on{background:#a3e635;color:#1a2e05}.pill.off{background:#f59e0b;color:#2a1600}
+.subbar{background:#fff;border-bottom:1px solid var(--bd);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subbar b{font-size:16px;color:#0f1b2d}.subbar span{font-size:12.5px;color:var(--mut);white-space:nowrap}.subbar span b{font-size:12.5px;color:var(--n2)}
+main{padding:12px 12px 120px}
+.card{border-radius:8px;box-shadow:none;padding:12px 13px;margin-bottom:10px;border-color:var(--bd)}
+h2{display:flex;align-items:center;gap:10px;font-size:14.5px;text-transform:none;letter-spacing:0;color:#0f1b2d;font-weight:800;margin:0 0 6px}h2:after{content:"";flex:1;height:1px;background:var(--bd)}
+.secT{font-size:11px;font-weight:800;letter-spacing:.8px;color:var(--n2);border-bottom:1px solid var(--bd);padding-bottom:4px;margin:12px 0 2px;text-transform:uppercase}
+label{font-size:12.5px;font-weight:600;color:#37474f;margin:9px 0 3px}
+input,select,textarea{border-radius:5px;border-color:#b0bec5;padding:10px 11px}
+input:focus,select:focus,textarea:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(30,90,168,.15)}
+input[data-pick]{cursor:pointer;caret-color:transparent;padding-right:34px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23607d8b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center}
+input[data-pick]::placeholder{color:#90a4ae}
+.btn{border-radius:6px;font-weight:700;border:1px solid #b0bec5;background:#fff}
+.btn.p{background:var(--c1);border-color:var(--c1)}.btn.g{background:var(--ok);border-color:var(--ok)}.btn.n{background:var(--n2);border-color:var(--n2)}.btn.o{border-color:var(--warn)}
+.btn.big{border-radius:8px;padding:16px;font-size:17px}
+.veic{background:#ecfeff;border:1px solid #bae6fd;border-radius:6px;font-size:13.5px}
+.placaM{margin:2px auto 8px;width:230px;max-width:100%;border:2.5px solid #10151d;border-radius:8px;background:#fff;overflow:hidden;text-align:center}
+.placaM i{display:block;background:#1e4fa8;color:#fff;font-style:normal;font-size:10px;font-weight:800;letter-spacing:3px;padding:2px 0}
+.placaM b{display:block;font-size:36px;letter-spacing:4px;font-family:"Arial Black",Arial,sans-serif;color:#10151d;line-height:1.15;padding:2px 0 3px}
+.tag{border-radius:3px}
+nav.tabbar{background:var(--n1);border-top:0;flex-wrap:wrap;padding:0 4px calc(4px + env(safe-area-inset-bottom))}
+nav.tabbar button{color:#7dd3fc;border-top:3px solid transparent;font-weight:600;padding:7px 0 5px}
+nav.tabbar button.on{color:#fff;border-top-color:var(--c2);background:rgba(255,255,255,.07)}
+.stbar{flex-basis:100%;background:#fff;border-top:1px solid var(--bd);font-size:11.5px;color:#37474f;padding:5px 12px;display:flex;gap:12px;margin:0 -4px 4px;white-space:nowrap;overflow:hidden}
+.stbar i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2e7d32;margin-right:4px}.stbar i.off{background:#f59e0b}
+.toast{bottom:120px}
+/* entrada igual ao SGP do computador */
+#login{background:#eef2f6;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;overflow:auto}
+.lgtopo{background:#10294a;color:#fff;padding:calc(28px + env(safe-area-inset-top)) 22px 60px}
+.lgtopo img{width:58px;height:58px;border-radius:13px;background:#fff;padding:4px;display:block}
+.lgtopo>b{display:block;font-size:30px;letter-spacing:3px;margin-top:12px}.lgtopo>small{display:block;font-size:13px;color:#cbd5e1}
+.lgemp{margin-top:14px}.lgemp b{display:block;font-size:14px}.lgemp small{display:block;font-size:12px;color:#cbd5e1}
+#login .lgcard{margin:-40px auto 0;width:calc(100% - 28px);max-width:460px;border-radius:12px;padding:18px 16px;box-shadow:0 12px 30px rgba(15,42,74,.16);border:0}
+.ola{font-size:22px;font-weight:900;color:#0f1b2d}.olas{font-size:13px;color:var(--mut);margin:2px 0 12px}
+.us{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px;margin-bottom:4px}
+.u{border:1.5px solid var(--bd);border-radius:10px;padding:10px 4px;text-align:center;position:relative;background:#fff;cursor:pointer}
+.u.on{border-color:var(--c1);background:#eef4fc}.u.on:after{content:"✓";position:absolute;right:7px;top:4px;color:var(--c1);font-weight:800}
+.u i{display:flex;width:40px;height:40px;border-radius:50%;color:#fff;font-style:normal;font-weight:800;font-size:14px;align-items:center;justify-content:center;margin:0 auto 5px}
+.u b{display:block;font-size:12px;word-break:break-word}.u small{font-size:11px;color:var(--mut)}
+.pw{position:relative}.pw input{padding-right:46px}.pw button{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:18px;padding:6px 8px;color:var(--mut)}
+label.ck{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13.5px;color:#263238;margin:12px 0 4px}label.ck input{width:18px;height:18px;margin:0}
+.lgrod{text-align:center;color:var(--mut);font-size:12.5px;padding:18px 0 calc(18px + env(safe-area-inset-bottom));margin-top:auto}.lgrod a{color:var(--c1);font-weight:700}
+/* escolha da lista estilo ERP */
+#pk{position:fixed;inset:0;z-index:36;background:var(--bg);display:none;flex-direction:column}#pk.on{display:flex}
+#pk .pkb{padding:10px 12px;display:flex;flex-direction:column;flex:1;min-height:0}
+#pk .subbar a{color:var(--c1);font-weight:700;font-size:13.5px;text-decoration:none;margin-left:14px}
+.cbx{border:1px solid #b8c3cf;border-radius:5px;background:#fff;display:flex;flex-direction:column;min-height:0;flex:1;margin-top:8px}
+.cbh,.cbr{display:grid;grid-template-columns:44px 1fr 118px;gap:6px;align-items:center;padding:8px 9px}
+.cbh{background:#e3e9f0;border-bottom:1px solid #b8c3cf;font-size:11px;font-weight:800;color:#334155;flex:none}
+#pkL{overflow:auto;flex:1}
+.cbr{border-bottom:1px solid #f0f3f7;font-size:12px;color:#37474f;cursor:pointer}.cbr b{display:block;font-size:13.5px;color:#0f1b2d}.cbr small{color:var(--mut);font-size:11px}
+.cbr.sel{background:#cffafe;box-shadow:inset 3px 0 0 #0891b2}.cbr:active{background:#e0f2fe}
+.cbf{background:#f1f4f8;border-top:1px solid #cfd8e3;font-size:11.5px;color:#475569;padding:6px 9px;display:flex;justify-content:space-between;flex:none}
+.btn.novo{border:1.5px dashed var(--c1);color:var(--c1);margin-top:10px}
+.sheet{border-radius:14px 14px 0 0}.falta{border-radius:6px}
 </style>
 </head>
 <body>
 <div id="login">
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><img src="icon-192.png" width="46" height="46" style="border-radius:12px"><div><b style="font-size:20px;letter-spacing:2px;color:var(--n2)">SGP</b><div class="hint" style="margin:0">Celular · Gestão de Carga e Pesagem</div></div></div>
-    <div id="lgSemCad" class="hint" style="display:none;margin:8px 0">Primeiro acesso neste aparelho: escolha a conexão em <b>Configurar</b> para baixar os usuários do SGP.</div>
-    <label>Usuário</label><select id="lgUser"></select>
-    <label>Senha</label><input id="lgSenha" type="password" autocomplete="current-password">
-    <p id="lgErr" style="color:var(--err);font-weight:700;min-height:18px;margin:8px 0"></p>
-    <button class="btn p" id="lgOk">Entrar</button>
-    <button class="btn" id="lgCfg" style="margin-top:8px">Configurar conexão</button>
+  <div class="lgtopo"><img src="icon-192.png" alt=""><b>SGP</b><small>Sistema de Gestão de Carga e Pesagem</small><div class="lgemp" id="lgEmp"></div></div>
+  <div class="card lgcard">
+    <div class="ola" id="lgOla">Olá! 👋</div><div class="olas">Escolha seu usuário e digite a senha.</div>
+    <div id="lgSemCad" class="warnbox" style="display:none;margin:0 0 8px">Primeiro acesso neste aparelho: toque em <b>Configurar conexão</b> (embaixo) para baixar os usuários do SGP.</div>
+    <div class="us" id="lgUsers"></div><input type="hidden" id="lgUser">
+    <label id="lgLbl">Senha</label><div class="pw"><input id="lgSenha" type="password" autocomplete="current-password"><button type="button" id="lgOlho" aria-label="Mostrar senha">👁</button></div>
+    <label class="ck"><input type="checkbox" id="lgManter" checked> Manter conectado neste celular</label>
+    <p id="lgErr" style="color:var(--err);font-weight:700;min-height:18px;margin:6px 0"></p>
+    <button class="btn p big" id="lgOk">Entrar</button>
+    <div class="hint" id="lgUlt" style="text-align:center;margin-top:9px"></div>
   </div>
+  <div class="lgrod">SGP Celular · <a href="#" id="lgCfg">Configurar conexão</a></div>
 </div>
 
 <header>
   <img src="icon-192.png" width="34" height="34" style="border-radius:9px">
-  <div class="tt"><b>SGP Celular</b><small id="hdUser"></small></div>
+  <div class="tt"><b>SGP</b><small>Gestão de Carga e Pesagem</small></div>
   <span class="pill" id="hdNet">—</span>
 </header>
+<div class="subbar"><b id="sbTit">Nova carga</b><span id="sbUser"></span></div>
 
 <main>
 <!-- ================= INÍCIO ================= -->
@@ -89,11 +160,11 @@ nav.tabbar svg{width:22px;height:22px}
     <h2>Dados da carga</h2>
     <div id="veic"></div>
     <div id="abBox"></div>
-    <label>Motorista</label><input id="fMot" list="dlMot" style="text-transform:uppercase">
-    <label>Transportadora</label><input id="fTransp" list="dlTransp" style="text-transform:uppercase">
-    <label>Produto / Material</label><input id="fMat" list="dlMat" style="text-transform:uppercase">
-    <label>Local da descarga (frente de serviço)</label><input id="fLocal" list="dlLocal" style="text-transform:uppercase">
-    <div class="row"><div><label>Fornecedor / Origem</label><input id="fForn" list="dlForn" style="text-transform:uppercase"></div><div><label>Cliente</label><input id="fCli" list="dlCli" style="text-transform:uppercase"></div></div>
+    <label>Motorista</label><input id="fMot" data-pick="motorista" readonly placeholder="ESCOLHA DA LISTA">
+    <label>Transportadora</label><input id="fTransp" data-pick="transportadora" readonly placeholder="ESCOLHA DA LISTA">
+    <label>Produto / Material</label><input id="fMat" data-pick="material" readonly placeholder="ESCOLHA DA LISTA">
+    <label>Local da descarga</label><input id="fLocal" data-pick="local" readonly placeholder="ESCOLHA DA LISTA">
+    <div class="row"><div><label>Fornecedor / Origem</label><input id="fForn" data-pick="fornecedor" readonly placeholder="ESCOLHA DA LISTA"></div><div><label>Cliente</label><input id="fCli" data-pick="cliente" readonly placeholder="ESCOLHA DA LISTA"></div></div>
     <label>Observação</label><textarea id="fObs" rows="2"></textarea>
     <div style="height:12px"></div>
     <button class="btn g big" id="btEnviar">Enviar para a balança</button>
@@ -104,6 +175,19 @@ nav.tabbar svg{width:22px;height:22px}
 <!-- ================= LANÇAMENTOS ================= -->
 <section id="s-lista" class="sec">
   <div class="card"><h2>Meus lançamentos</h2><div id="lista"></div></div>
+</section>
+
+<!-- ================= CADASTROS ================= -->
+<section id="s-cad" class="sec">
+  <div class="card">
+    <h2>Novo cadastro</h2>
+    <div class="chips" id="cdTipos"></div>
+    <div id="cdForm"></div>
+    <div style="height:14px"></div>
+    <button class="btn g" id="cdSalvar">Cadastrar e enviar ao SGP</button>
+    <p class="hint" style="text-align:center;margin:8px 0 0">Entra direto no SGP, marcado como cadastrado pelo celular.</p>
+  </div>
+  <div class="card"><h2>Meus cadastros</h2><div id="cdLista"></div></div>
 </section>
 
 <!-- ================= CONFIGURAR ================= -->
@@ -147,8 +231,10 @@ nav.tabbar svg{width:22px;height:22px}
 </main>
 
 <nav class="tabbar">
+  <div class="stbar" id="stbar"></div>
   <button data-s="s-ini" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h4l3 3v4h-7"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg>Nova carga</button>
   <button data-s="s-lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lançamentos <span id="nbFila"></span></button>
+  <button data-s="s-cad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Cadastros</button>
   <button data-s="s-cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Configurar</button>
 </nav>
 
@@ -158,6 +244,16 @@ nav.tabbar svg{width:22px;height:22px}
   <div class="guide"></div>
   <div class="bar"><button class="btn" id="camX" style="flex:1">Cancelar</button><button class="btn p" id="camOk" style="flex:2">Ler placa</button></div>
 </div>
+<div id="pk">
+  <header><img src="icon-192.png" width="34" height="34" style="border-radius:9px"><div class="tt"><b>SGP</b><small>Gestão de Carga e Pesagem</small></div></header>
+  <div class="subbar"><b id="pkTit">Escolha</b><span><a href="#" id="pkLimpar">Limpar</a><a href="#" id="pkX">✕ Fechar</a></span></div>
+  <div class="pkb">
+    <input id="pkBusca" placeholder="🔍  Buscar pelo nome ou CNPJ" autocomplete="off" style="text-transform:uppercase">
+    <div class="cbx"><div class="cbh"><span>CÓD.</span><span>NOME</span><span>CNPJ / CPF</span></div><div id="pkL"></div><div class="cbf"><span id="pkRod"></span><span>toque para escolher</span></div></div>
+    <button class="btn novo" id="pkNovo">+ Cadastrar novo</button>
+  </div>
+</div>
+<div class="mdl" id="mdl"><div class="sheet"><h2 id="mdTit">Não está cadastrado</h2><div id="mdCorpo"></div><div class="row" style="margin-top:14px"><button class="btn" id="mdNao">Voltar e corrigir</button><button class="btn g" id="mdSim">Cadastrar e enviar</button></div></div></div>
 <div class="toast" id="toast"></div>
 <canvas id="cv" style="display:none"></canvas>
 <datalist id="dlPlacas"></datalist><datalist id="dlMot"></datalist><datalist id="dlTransp"></datalist><datalist id="dlMat"></datalist><datalist id="dlLocal"></datalist><datalist id="dlForn"></datalist><datalist id="dlCli"></datalist>
@@ -206,11 +302,12 @@ function ld(){try{return JSON.parse(localStorage.getItem(K))||{};}catch(e){retur
 /* Código do aplicativo registrado na Microsoft pelo fornecedor do SGP (vale para todos os clientes). Vazio = cada celular digita em Configurar › Avançado. */
 const CLIENT_ID_PADRAO='3e9a639c-e68d-448c-8546-31740ea3a262';
 const clientId=()=>(ST.cfg.client||CLIENT_ID_PADRAO||'').trim();
-let ST=Object.assign({cfg:{modo:CLIENT_ID_PADRAO?'onedrive':'demo',client:'',pasta:'SGP Dados',aparelho:''},cad:null,fila:[],env:[],status:{},user:null,lastSync:null},ld());
+let ST=Object.assign({cfg:{modo:CLIENT_ID_PADRAO?'onedrive':'demo',client:'',pasta:'SGP Dados',aparelho:''},cad:null,fila:[],env:[],filaCad:[],cadEnv:[],status:{},user:null,lastSync:null},ld());
 function sv(){try{localStorage.setItem(K,JSON.stringify(ST));}catch(e){}}
 
 /* ---------- dados de demonstração ---------- */
-const DEMO={gerado:new Date().toISOString(),empresa:'EMPRESA DEMONSTRAÇÃO',users:[{login:'DEMO',nome:'DEMO',h:hs('1234'),ativo:true}],
+const DEMO={gerado:new Date().toISOString(),empresa:'EMPRESA DEMONSTRAÇÃO',users:[{login:'DEMO',nome:'DEMO',perfil:'admin',h:hs('1234'),ativo:true},{login:'JOAO',nome:'JOÃO',perfil:'usuario',h:hs('1234'),ativo:true}],
+  info:{transportadora:{'TRANSPORTES EXEMPLO':['1','12.345.678/0001-90','SANTOS/SP',0]},fornecedor:{'PEDREIRA MODELO':['1','','CUBATÃO/SP',0]},cliente:{'CONSTRUTORA EXEMPLO':['1','','SANTOS/SP',0]},motorista:{ANTONIO:['1','',''],PEDRO:['2','',''],MARCOS:['3','','']},material:{'PEDRA DETONADA':['1','','TON'],'PEDRA MACADAME':['2','','TON'],'EXPURGO':['3','','TON'],'PEDRA RACHÃO':['4','','TON']},local:{}},
   veic:{ABC1D23:{motorista:'ANTONIO',transportadora:'TRANSPORTES EXEMPLO',tara:14000,modelo:'CAÇAMBA'},DEF4G56:{motorista:'PEDRO',transportadora:'TRANSPORTES EXEMPLO',tara:13470},HIJ7K89:{motorista:'MARCOS',transportadora:'TRANSPORTES EXEMPLO',tara:13420}},
   ult:{ABC1D23:{material:'PEDRA MACADAME',local:'KM 15+000',fornecedor:'PEDREIRA MODELO',cliente:'CONSTRUTORA EXEMPLO'},DEF4G56:{material:'EXPURGO',local:'KM 10',fornecedor:'PEDREIRA MODELO',cliente:'CONSTRUTORA EXEMPLO'}},
   abertos:{},listas:{material:['PEDRA DETONADA','PEDRA MACADAME','EXPURGO','PEDRA RACHÃO'],local:['KM 5+000','KM 10','KM 12+000','KM 15+000'],fornecedor:['PEDREIRA MODELO'],cliente:['CONSTRUTORA EXEMPLO'],transportadora:['TRANSPORTES EXEMPLO'],motorista:['ANTONIO','PEDRO','MARCOS']}};
@@ -240,7 +337,7 @@ const ARM={
     if(ST.cfg.modo==='pasta'){const h=await pastaArq(p,false);if(!h)return null;return JSON.parse(await (await h.getFile()).text());}
     const r=await fetch(gUrl(p)+':/content',{headers:{Authorization:'Bearer '+await token()}});if(r.status===404)return null;if(!r.ok)throw new Error('OneDrive '+r.status);return r.json();},
   async gravar(p,obj){const txt=JSON.stringify(obj);
-    if(ST.cfg.modo==='demo'){demoProcessar(obj);return;}
+    if(ST.cfg.modo==='demo'){if(!String(obj.id||'').startsWith('CAD-'))demoProcessar(obj);return;}
     if(ST.cfg.modo==='pasta'){const h=await pastaArq(p,true);const w=await h.createWritable();await w.write(txt);await w.close();return;}
     const r=await fetch(gUrl(p)+':/content',{method:'PUT',headers:{Authorization:'Bearer '+await token(),'Content-Type':'application/json'},body:txt});if(!r.ok)throw new Error('OneDrive '+r.status);}
 };
@@ -258,7 +355,10 @@ async function sincronizar(manual){
   if(SYNC)return;SYNC=true;let erro='';
   try{
     if(ST.cfg.modo!=='demo'&&!navigator.onLine)throw new Error('sem internet');
-    const cad=await ARM.ler('celular/cadastro.json');if(cad){ST.cad=cad;listas();}
+    const cad=await ARM.ler('celular/cadastro.json');if(cad){ST.cad=JSON.parse(JSON.stringify(cad));cdReaplicar();listas();}
+    ST.filaCad=ST.filaCad||[];ST.cadEnv=ST.cadEnv||[];
+    for(const c of ST.filaCad.slice()){await ARM.gravar('celular/cadastros/'+c.id+'.json',c);ST.filaCad=ST.filaCad.filter(x=>x.id!==c.id);c.enviadoEm=new Date().toISOString();ST.cadEnv.unshift(c);}
+    ST.cadEnv=ST.cadEnv.slice(0,200);
     for(const e of ST.fila.slice()){await ARM.gravar('celular/entrada/'+e.id+'.json',e);ST.fila=ST.fila.filter(x=>x.id!==e.id);e.enviadoEm=new Date().toISOString();ST.env.unshift(e);}
     const st=await ARM.ler('celular/status.json');if(st&&st.itens)ST.status=Object.assign(ST.status||{},st.itens);
     ST.lastSync=new Date().toISOString();ST.env=ST.env.slice(0,300);
@@ -271,22 +371,32 @@ addEventListener('online',()=>{ui();sincronizar(false);});addEventListener('offl
 /* ---------- listas / login ---------- */
 function listas(){const c=ST.cad||{};const set=(id,a)=>$(id).innerHTML=(a||[]).map(v=>`<option value="${esc(v)}">`).join('');const L=c.listas||{};
   set('dlPlacas',Object.keys(c.veic||{}).concat(Object.keys(c.ult||{})).filter((v,i,a)=>a.indexOf(v)===i).sort());set('dlMot',L.motorista);set('dlTransp',L.transportadora);set('dlMat',L.material);set('dlLocal',L.local);set('dlForn',L.fornecedor);set('dlCli',L.cliente);}
-function telaLogin(){const us=((ST.cad||{}).users||[]).filter(u=>u.ativo!==false);$('lgSemCad').style.display=us.length?'none':'';
-  $('lgUser').innerHTML=us.map(u=>`<option value="${esc(u.login)}"${ST.ultUser===u.login?' selected':''}>${esc(u.nome)}</option>`).join('');$('lgSenha').value='';$('lgErr').textContent='';$('login').style.display='flex';}
-$('lgOk').onclick=()=>{const u=((ST.cad||{}).users||[]).find(x=>x.login===$('lgUser').value);if(!u||!senhaConf(u,$('lgSenha').value,'login')){$('lgErr').textContent='Senha incorreta.';return;}
-  ST.user={login:u.login,nome:u.nome};ST.ultUser=u.login;sv();$('login').style.display='none';mostrar('s-ini');ui();};
+const AV_COR=['#0f766e','#1e5aa8','#7c3aed','#b45309','#be123c','#0369a1','#4d7c0f'];
+const inic=n=>{const p=String(n||'?').replace(/[^A-Za-zÀ-ú0-9 .]/g,'').split(/[ .]+/).filter(Boolean);return ((p[0]||'?')[0]+((p[1]||p[0]||'?')[p[1]?0:1]||'')).toUpperCase();};
+function telaLogin(){const c=ST.cad||{};const us=(c.users||[]).filter(u=>u.ativo!==false);$('lgSemCad').style.display=us.length?'none':'';
+  const h=new Date().getHours();$('lgOla').textContent=(h<12?'Bom dia!':h<18?'Boa tarde!':'Boa noite!')+' 👋';
+  $('lgEmp').innerHTML=c.empresa?'<b>'+esc(c.empresa)+'</b>':'';
+  let sel=us.find(u=>u.login===ST.ultUser)||us[0];
+  $('lgUsers').innerHTML=us.map((u,i)=>'<div class="u'+(sel&&u.login===sel.login?' on':'')+'" data-l="'+esc(u.login)+'"><i style="background:'+AV_COR[i%AV_COR.length]+'">'+esc(inic(u.nome))+'</i><b>'+esc(u.nome)+'</b><small>'+(u.perfil==='admin'?'Administrador':'Usuário')+'</small></div>').join('');
+  const marcar=l=>{$('lgUser').value=l;const u=us.find(x=>x.login===l);$('lgUsers').querySelectorAll('.u').forEach(d=>d.classList.toggle('on',d.dataset.l===l));$('lgLbl').textContent='Senha de '+(u?u.nome:'');const ua=(ST.ultAcesso||{})[l];$('lgUlt').textContent=ua?'Último acesso de '+(u?u.nome:'')+': '+new Date(ua).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',',' às'):'';$('lgErr').textContent='';$('lgSenha').focus();};
+  $('lgUsers').querySelectorAll('.u').forEach(d=>d.onclick=()=>marcar(d.dataset.l));
+  $('lgSenha').value='';$('lgErr').textContent='';$('login').style.display='flex';if(sel)marcar(sel.login);else{$('lgUser').value='';$('lgUlt').textContent='';}}
+$('lgOlho').onclick=()=>{const i=$('lgSenha');i.type=i.type==='password'?'text':'password';};
+$('lgOk').onclick=()=>{const u=((ST.cad||{}).users||[]).find(x=>x.login===$('lgUser').value);if(!u){$('lgErr').textContent='Escolha o usuário.';return;}if(!senhaConf(u,$('lgSenha').value,'login')){$('lgErr').textContent='Senha incorreta.';return;}
+  ST.user={login:u.login,nome:u.nome};ST.ultUser=u.login;ST.ultAcesso=ST.ultAcesso||{};ST.ultAcesso[u.login]=new Date().toISOString();ST.sessao=!$('lgManter').checked;sv();$('login').style.display='none';mostrar('s-ini');ui();};
 $('lgSenha').addEventListener('keydown',e=>{if(e.key==='Enter')$('lgOk').click();});
-$('lgCfg').onclick=()=>{$('login').style.display='none';mostrar('s-cfg');};
+$('lgCfg').onclick=e=>{e.preventDefault();$('login').style.display='none';mostrar('s-cfg');};
 $('btSair').onclick=()=>{ST.user=null;sv();telaLogin();};
 
 /* ---------- navegação / ui ---------- */
-function mostrar(s){document.querySelectorAll('.sec').forEach(x=>x.classList.toggle('on',x.id===s));document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='s-lista')lista();if(s==='s-cfg')cfgUI();}
+const SB_TIT={'s-ini':'Nova carga','s-lista':'Lançamentos','s-cad':'Cadastros','s-cfg':'Configurar'};
+function mostrar(s){$('sbTit').textContent=SB_TIT[s]||'';document.querySelectorAll('.sec').forEach(x=>x.classList.toggle('on',x.id===s));document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='s-lista')lista();if(s==='s-cfg')cfgUI();if(s==='s-cad')cdUI();}
 document.querySelectorAll('nav.tabbar button').forEach(b=>b.onclick=()=>{if(!ST.user&&b.dataset.s!=='s-cfg'){telaLogin();return;}mostrar(b.dataset.s);});
-function ui(){$('hdUser').textContent=(ST.user?ST.user.nome:'sem usuário')+(ST.cfg.aparelho?' · '+ST.cfg.aparelho:'');
+function ui(){$('sbUser').innerHTML=ST.user?'Usuário | <b>'+esc(ST.user.nome)+'</b>':'sem usuário';
   const on=ST.cfg.modo==='demo'?true:navigator.onLine;const nf=ST.fila.length;
   $('hdNet').className='pill '+(on?'on':'off');$('hdNet').textContent=(ST.cfg.modo==='demo'?'DEMO':on?'ONLINE':'SEM INTERNET')+(nf?' · '+nf+' na fila':'');
-  $('nbFila').textContent=nf?'('+nf+')':'';if($('s-lista').classList.contains('on'))lista();}
-function stInfo(){$('stInfo').innerHTML=`Modo: <b>${{onedrive:'OneDrive',pasta:'Pasta do computador',demo:'Demonstração'}[ST.cfg.modo]}</b><br>Cadastro do SGP: ${ST.cad?'<b>'+Object.keys(ST.cad.veic||{}).length+' veículos</b>, atualizado em '+new Date(ST.cad.gerado).toLocaleString('pt-BR'):'<b style="color:#c62828">não baixado</b>'}<br>Na fila para enviar: <b>${ST.fila.length}</b><br>Última sincronização: ${ST.lastSync?new Date(ST.lastSync).toLocaleString('pt-BR'):'—'}${ST._erro?'<br><span style="color:#c62828">Erro: '+esc(ST._erro)+'</span>':''}`;}
+  $('nbFila').textContent=nf?'('+nf+')':'';const nfc=(ST.filaCad||[]).length;$('stbar').innerHTML='<span><i class="'+(on?'':'off')+'"></i>'+(ST.cfg.modo==='demo'?'Demonstração':!on?'Sem internet':ST.lastSync?'Sincronizado '+new Date(ST.lastSync).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'Não sincronizado')+'</span><span>Fila: '+(nf+nfc)+'</span>'+(ST.cfg.aparelho?'<span>'+esc(ST.cfg.aparelho)+'</span>':'');if($('s-cad').classList.contains('on'))cdLista();if($('s-lista').classList.contains('on'))lista();}
+function stInfo(){$('stInfo').innerHTML=`Modo: <b>${{onedrive:'OneDrive',pasta:'Pasta do computador',demo:'Demonstração'}[ST.cfg.modo]}</b><br>Cadastro do SGP: ${ST.cad?'<b>'+Object.keys(ST.cad.veic||{}).length+' veículos</b>, atualizado em '+new Date(ST.cad.gerado).toLocaleString('pt-BR'):'<b style="color:#c62828">não baixado</b>'}<br>Na fila para enviar: <b>${ST.fila.length}</b>${(ST.filaCad||[]).length?' lançamento(s) + <b>'+ST.filaCad.length+'</b> cadastro(s)':''}<br>Última sincronização: ${ST.lastSync?new Date(ST.lastSync).toLocaleString('pt-BR'):'—'}${ST._erro?'<br><span style="color:#c62828">Erro: '+esc(ST._erro)+'</span>':''}`;}
 
 /* ---------- configuração ---------- */
 function cfgUI(){const c=ST.cfg;$('cModo').value=c.modo;$('cClient').value=c.client||'';$('cClientInfo').textContent=CLIENT_ID_PADRAO?'Já vem preenchido no app. Só mude se o fornecedor pedir.':'Este app ainda não tem o código padrão: cole aqui o Client ID passado pelo fornecedor.';if(!CLIENT_ID_PADRAO&&!c.client)$('cAvanc').open=true;if(LOGIN_ERRO)$('cMsInfo').textContent=LOGIN_ERRO;$('cPasta').value=c.pasta||'SGP Dados';$('cAparelho').value=c.aparelho||'';modoUI();stInfo();
@@ -351,16 +461,122 @@ window.lerImagem=lerImagem;window.placasDoTexto=placasDoTexto;
 /* ---------- formulário ---------- */
 $('inPlaca').addEventListener('input',()=>{const p=normP($('inPlaca').value);$('inPlaca').value=p;if(p.length>=7)abrirPlaca();else $('frm').style.display='none';});
 function abrirPlaca(){const p=normP($('inPlaca').value);const c=ST.cad||{};const v=(c.veic||{})[p],u=(c.ult||{})[p]||{};const ab=(c.abertos||{})[p];
-  $('veic').innerHTML=`<div class="veic"><div class="pl">${esc(p)}</div>${v||u.motorista?`<b>${esc((v&&v.motorista)||u.motorista||'')}</b> · ${esc((v&&v.transportadora)||u.transportadora||'')}${v&&v.modelo?' · '+esc(v.modelo):''}<br>`:'<b style="color:#ef6c00">Veículo sem cadastro no SGP</b><br>'}${v&&v.tara?'Tara cadastrada: <b>'+int(v.tara)+' kg</b> — só precisa passar carregado na balança.':'<span class="hint">Sem tara cadastrada — pesar vazio e carregado.</span>'}</div>`;
+  $('veic').innerHTML=`<div class="placaM"><i>BRASIL</i><b>${esc(p)}</b></div><div class="veic">${v||u.motorista?`<b>${esc((v&&v.motorista)||u.motorista||'')}</b> · ${esc((v&&v.transportadora)||u.transportadora||'')}${v&&v.modelo?' · '+esc(v.modelo):''}<br>`:'<b style="color:#ef6c00">Veículo sem cadastro no SGP</b><br>'}${v&&v.tara?'Tara cadastrada: <b>'+int(v.tara)+' kg</b> — só precisa passar carregado na balança.':'<span class="hint">Sem tara cadastrada — pesar vazio e carregado.</span>'}</div>`;
   $('abBox').innerHTML=ab?`<div class="warnbox">⚠ <b>Esta placa já tem pesagem em aberto</b> no SGP (ticket nº ${esc(ab.ticket)}, desde ${fmtDT(ab.desde)}). Avise o operador da balança antes de enviar outra.</div>`:'';
   const set=(id,val)=>{$(id).value=val||'';};
   set('fMot',(v&&v.motorista)||u.motorista);set('fTransp',(v&&v.transportadora)||u.transportadora||((c.listas||{}).transportadora||[])[0]);set('fMat',u.material);set('fLocal',u.local);set('fForn',u.fornecedor||((c.listas||{}).fornecedor||[])[0]);set('fCli',u.cliente||((c.listas||{}).cliente||[])[0]);$('fObs').value='';
   $('frm').style.display='';setTimeout(()=>$('frm').scrollIntoView({behavior:'smooth',block:'start'}),50);}
 function novoId(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';const r=crypto.getRandomValues(new Uint8Array(6));r.forEach(b=>s+=a[b%a.length]);return 'CEL-'+s;}
 $('btEnviar').onclick=()=>{const p=normP($('inPlaca').value);if(p.length<5){toast('Informe a placa.');return;}
+  const faltas=cdFaltas();if(faltas.length){mdAbrir(faltas);return;}enviarLanc();};
+function enviarLanc(){const p=normP($('inPlaca').value);
   const e={id:novoId(),placa:p,motorista:U($('fMot').value),transportadora:U($('fTransp').value),material:U($('fMat').value),local:U($('fLocal').value),fornecedor:U($('fForn').value),cliente:U($('fCli').value),obs:$('fObs').value.trim(),
     usuario:ST.user?ST.user.nome:'',aparelho:ST.cfg.aparelho||'',criadoEm:new Date().toISOString(),horaLocal:agoraLocal(),v:1};
-  ST.fila.push(e);sv();ui();$('inPlaca').value='';$('frm').style.display='none';toast('Enviado: '+e.id+' · '+p+'. O ticket aparece em Lançamentos quando a balança receber.',4000);sincronizar(false);};
+  ST.fila.push(e);sv();ui();$('inPlaca').value='';$('frm').style.display='none';toast('Enviado: '+e.id+' · '+p+'. O ticket aparece em Lançamentos quando a balança receber.',4000);sincronizar(false);}
+
+/* ---------- cadastros pelo celular (entram direto no SGP, marcados) ---------- */
+const CD_FISC=[['nome','Nome usado nas pesagens (curto)'],['cnpj','CNPJ ou CPF','doc'],['razao','Razão social / nome completo'],['cidade','Município'],['uf','UF','uf'],['celular','Telefone / WhatsApp','tel'],['contato','Pessoa de contato']];
+const CD_TIPOS={
+  veiculo:{tit:'Veículo',ic:'🚚',campos:[['placa','Placa','placa'],['modelo','Modelo / tipo (ex.: CAÇAMBA TRUCK)'],['motorista','Motorista','dlMot'],['transportadora','Transportadora','dlTransp'],['tara','Tara em kg (se souber)','num']]},
+  motorista:{tit:'Motorista',ic:'👤',campos:[['nome','Nome do motorista'],['cpf','CPF','num'],['celular','Celular / WhatsApp','tel'],['cnh','Nº da CNH','num'],['transp','Transportadora','dlTransp'],['placaPad','Placa que costuma dirigir','dlPlacas']]},
+  transportadora:{tit:'Transportadora',ic:'🏢',campos:CD_FISC.concat([['rntrc','RNTRC (ANTT)','num']])},
+  cliente:{tit:'Cliente',ic:'🏗️',campos:CD_FISC},
+  fornecedor:{tit:'Fornecedor / origem',ic:'⛰️',campos:CD_FISC},
+  material:{tit:'Material',ic:'🪨',campos:[['nome','Nome do material'],['un','Unidade','un']]},
+  local:{tit:'Local de descarga',ic:'📍',campos:[['nome','Nome do local (ex.: KM 15+000)']]}};
+const CAMPO_TIPO={motorista:'motorista',transportadora:'transportadora',material:'material',local:'local',fornecedor:'fornecedor',cliente:'cliente'};
+let CDT='veiculo';
+function cdInput(id,c,val){const [k,lb,t]=c;const v=esc(val||'');const up=' style="text-transform:uppercase"';
+  if(t==='uf')return '<label>'+lb+'</label><input id="'+id+k+'" maxlength="2"'+up+' value="'+v+'">';
+  if(t==='un')return '<label>'+lb+'</label><select id="'+id+k+'">'+['TON','M³','KG','UN','CARGA','VIAGEM'].map(o=>'<option'+(o===val?' selected':'')+'>'+o+'</option>').join('')+'</select>';
+  if(t==='placa')return '<label>'+lb+'</label><input id="'+id+k+'" class="placa" maxlength="8" placeholder="ABC1D23" autocomplete="off" value="'+v+'">';
+  if(t==='doc')return '<label>'+lb+'</label><div class="row"><input id="'+id+k+'" inputmode="numeric" value="'+v+'" style="flex:2"><button class="btn n" type="button" data-cnpj="'+id+'" style="flex:1;padding:10px">Buscar na Receita</button></div>';
+  const pk={dlMot:'motorista',dlTransp:'transportadora'}[t];if(pk)return '<label>'+lb+'</label><input id="'+id+k+'" data-pick="'+pk+'" readonly placeholder="ESCOLHA DA LISTA" value="'+v+'">';
+  return '<label>'+lb+'</label><input id="'+id+k+'"'+(t==='num'?' inputmode="numeric"':t==='tel'?' inputmode="tel"':up)+(t&&t.startsWith('dl')?' list="'+t+'"':'')+' value="'+v+'" autocomplete="off">';}
+function cdUI(){$('cdTipos').innerHTML=Object.entries(CD_TIPOS).map(([k,t])=>'<button data-k="'+k+'" class="'+(k===CDT?'on':'')+'">'+t.ic+' '+t.tit+'</button>').join('');
+  $('cdTipos').querySelectorAll('button').forEach(b=>b.onclick=()=>{CDT=b.dataset.k;cdUI();});
+  $('cdForm').innerHTML=CD_TIPOS[CDT].campos.map(c=>cdInput('cd_',c,'')).join('');cdLigarCnpj($('cdForm'));cdLista();}
+function cdLigarCnpj(box){box.querySelectorAll('[data-cnpj]').forEach(b=>b.onclick=()=>cdReceita(b.dataset.cnpj,b));}
+async function cdReceita(pre,bt){const d=($(pre+'cnpj').value||'').replace(/\D/g,'');if(d.length!==14){toast('Digite os 14 números do CNPJ.');return;}
+  const t0=bt.textContent;bt.disabled=true;bt.textContent='Buscando...';
+  try{const r=await fetch('https://brasilapi.com.br/api/cnpj/v1/'+d);if(!r.ok)throw new Error(r.status===404?'CNPJ não encontrado':'erro '+r.status);const j=await r.json();
+    const put=(k,v)=>{const el=$(pre+k);if(el&&v&&!el.value)el.value=U(v);};put('razao',j.razao_social);put('nome',j.nome_fantasia||j.razao_social);put('cidade',j.municipio);put('uf',j.uf);put('celular',j.ddd_telefone_1);
+    toast('Dados da Receita preenchidos.');}catch(e){toast('Não achou na Receita: '+e.message);}bt.disabled=false;bt.textContent=t0;}
+function cdLer(pre,tipo){const d={};CD_TIPOS[tipo].campos.forEach(([k])=>{const el=$(pre+k);if(el){const v=String(el.value||'').trim();if(v)d[k]=k==='email'?v:U(v);}});if(d.placa)d.placa=normP(d.placa);return d;}
+function cdExiste(tipo,d){const c=ST.cad||{};if(tipo==='veiculo')return !!(c.veic||{})[normP(d.placa)];return ((c.listas||{})[tipo]||[]).includes(U(d.nome));}
+function cdAplicar(c){ST.cad=ST.cad||{veic:{},ult:{},listas:{}};const d=c.dados||{};
+  if(c.tipo==='veiculo'){const p=normP(d.placa);ST.cad.veic=ST.cad.veic||{};if(!ST.cad.veic[p])ST.cad.veic[p]={motorista:d.motorista||'',transportadora:d.transportadora||'',modelo:d.modelo||'',tara:parseInt(String(d.tara||'').replace(/\D/g,''))||null,cel:1};return;}
+  const L=(ST.cad.listas=ST.cad.listas||{});const a=(L[c.tipo]=L[c.tipo]||[]);if(d.nome&&!a.includes(d.nome)){a.push(d.nome);a.sort((x,y)=>x.localeCompare(y));}}
+// depois de baixar o cadastro do SGP: marca o que já chegou e mantém na tela o que ainda não chegou
+function cdReaplicar(){const env=ST.cadEnv||[];env.forEach(c=>{if(!c.noSgp&&cdExiste(c.tipo,c.dados))c.noSgp=new Date().toISOString();});
+  (ST.filaCad||[]).concat(env.filter(c=>!c.noSgp)).forEach(cdAplicar);}
+function cdNovoId(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';crypto.getRandomValues(new Uint8Array(6)).forEach(b=>s+=a[b%a.length]);return 'CAD-'+s;}
+function cdEnfileirar(tipo,dados){const c={id:cdNovoId(),tipo,dados,usuario:ST.user?ST.user.nome:'',aparelho:ST.cfg.aparelho||'',criadoEm:new Date().toISOString(),v:1};
+  ST.filaCad=ST.filaCad||[];ST.filaCad.push(c);cdAplicar(c);return c;}
+function cdValidar(tipo,d){if(tipo==='veiculo'){if(!d.placa||d.placa.length<7)return 'Informe a placa completa.';if(!/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(d.placa)&&!confirm('A placa '+d.placa+' não está no formato padrão (ABC1D23). Cadastrar assim mesmo?'))return '-';
+    if(d.tara){const t=parseInt(d.tara.replace(/\D/g,''));if(!(t>=1000&&t<=60000))return 'Tara inválida: informe em kg (ex.: 14000) ou deixe vazio.';d.tara=String(t);}}
+  else if(!d.nome)return 'Informe o nome.';
+  if(d.cnpj){const n=d.cnpj.replace(/\D/g,'');if(n.length!==11&&n.length!==14)return 'CNPJ/CPF deve ter 14 ou 11 números.';}
+  if(d.cpf&&d.cpf.replace(/\D/g,'').length!==11)return 'CPF deve ter 11 números.';return '';}
+$('cdSalvar').onclick=()=>{if(!ST.user){telaLogin();return;}const d=cdLer('cd_',CDT);const er=cdValidar(CDT,d);if(er){if(er!=='-')toast(er);return;}
+  if(cdExiste(CDT,d)){toast((CDT==='veiculo'?'A placa '+d.placa:d.nome)+' já está cadastrado(a) no SGP.');return;}
+  const extra=[];if(CDT==='veiculo'){if(d.motorista&&!lst('motorista').includes(d.motorista))extra.push(['motorista',d.motorista]);if(d.transportadora&&!lst('transportadora').includes(d.transportadora))extra.push(['transportadora',d.transportadora]);}
+  if(CDT==='motorista'&&d.transp&&!lst('transportadora').includes(d.transp))extra.push(['transportadora',d.transp]);
+  if(extra.length&&!confirm(extra.map(x=>CD_TIPOS[x[0]].tit+' '+x[1]).join(' e ')+(extra.length>1?' também não estão cadastrados':' também não está cadastrado(a)')+'. Cadastrar junto?'))return;
+  extra.forEach(x=>cdEnfileirar(x[0],{nome:x[1]}));cdEnfileirar(CDT,d);sv();listas();ui();cdUI();
+  toast(CD_TIPOS[CDT].tit+' cadastrado(a)'+(extra.length?' (+'+extra.length+')':'')+'. Vai para o SGP na próxima sincronização.',3500);sincronizar(false);};
+function cdLista(){const it=[...(ST.filaCad||[]).map(c=>({...c,_f:1})),...(ST.cadEnv||[])];
+  $('cdLista').innerHTML=it.length?it.slice(0,60).map(c=>{const t=CD_TIPOS[c.tipo]||{tit:c.tipo,ic:''};const d=c.dados||{};
+    const tag=c._f?'<span class="tag t-fila">NA FILA</span>':c.noSgp?'<span class="tag t-ok">NO SGP ✓</span>':'<span class="tag t-env">ENVIADO</span>';
+    return '<div class="item"><div class="tx"><b>'+t.ic+' '+esc(c.tipo==='veiculo'?d.placa:d.nome)+'</b><small>'+esc(t.tit)+' · '+esc(c.usuario||'')+' · '+new Date(c.criadoEm).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small></div>'+tag+'</div>';}).join(''):'<p class="hint">Nenhum cadastro feito por este celular.</p>';}
+/* ---- ao lançar: o que não está cadastrado ---- */
+const lst=k=>((ST.cad||{}).listas||{})[k]||[];
+function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>2)return 9;let p=Array.from({length:n+1},(_,i)=>i);for(let i=1;i<=m;i++){const q=[i];for(let j=1;j<=n;j++)q[j]=Math.min(p[j]+1,q[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q;}return p[n];}
+function parecidos(n,a){const tk=t=>t.split(/\s+/).filter(w=>w.length>1);const nt=tk(n);return a.filter(x=>{if(x===n)return false;if(n.length>=3&&(x.includes(n)||n.includes(x)))return true;if(lev(x,n)<=2)return true;const xt=tk(x);return nt.length>0&&nt.every(w=>xt.some(y=>y.startsWith(w)||(y.length>=3&&w.startsWith(y))));}).slice(0,3);}
+const CAMPOS_LANC=[['fMot','motorista'],['fTransp','transportadora'],['fMat','material'],['fLocal','local'],['fForn','fornecedor'],['fCli','cliente']];
+function cdFaltas(){if(!ST.cad)return [];const f=[];const p=normP($('inPlaca').value);
+  if(!(ST.cad.veic||{})[p])f.push({tipo:'veiculo',valor:p});
+  CAMPOS_LANC.forEach(([id,k])=>{const v=U($(id).value);if(v&&!lst(k).includes(v))f.push({tipo:k,valor:v,campo:id});});return f;}
+let FALTAS=[],MD_CB=null;
+function mdAbrir(f,cb){FALTAS=f;MD_CB=cb||null;$('mdSim').textContent=MD_CB?'Cadastrar':'Cadastrar e enviar';mdRender();$('mdl').classList.add('on');}
+function mdFechar(){$('mdl').classList.remove('on');FALTAS=[];MD_CB=null;}
+function mdRender(){if(!FALTAS.length){const cb=MD_CB;mdFechar();if(!cb)enviarLanc();return;}
+  $('mdTit').textContent=FALTAS.length===1?'Este dado não está cadastrado no SGP':'Estes dados não estão cadastrados no SGP';
+  $('mdCorpo').innerHTML='<p class="hint" style="margin:0">Confira. Se estiver certo, toque em <b>Cadastrar e enviar</b>: o cadastro entra direto no SGP, marcado como feito pelo celular.</p>'+FALTAS.map((x,i)=>{const t=CD_TIPOS[x.tipo];const pr='md'+i+'_';
+    const sug=x.campo?parecidos(x.valor,lst(x.tipo)):[];let mini='';
+    if(x.tipo==='veiculo')mini='<div class="row"><div>'+cdInput(pr,['modelo','Modelo / tipo'],'')+'</div><div>'+cdInput(pr,['tara','Tara kg (se souber)','num'],'')+'</div></div>';
+    else if(x.tipo==='motorista')mini='<div class="row"><div>'+cdInput(pr,['cpf','CPF','num'],'')+'</div><div>'+cdInput(pr,['celular','Celular','tel'],'')+'</div></div>';
+    else if(['transportadora','cliente','fornecedor'].includes(x.tipo))mini=cdInput(pr,['cnpj','CNPJ ou CPF (opcional)','doc'],'')+'<input type="hidden" id="'+pr+'razao"><input type="hidden" id="'+pr+'cidade"><input type="hidden" id="'+pr+'uf"><input type="hidden" id="'+pr+'celular"><input type="hidden" id="'+pr+'nome">';
+    else if(x.tipo==='material')mini=cdInput(pr,['un','Unidade','un'],'TON');
+    return '<div class="falta"><b class="t">'+t.ic+' '+esc(t.tit)+': '+esc(x.valor)+'</b>'+(sug.length?'<div class="hint" style="margin-top:6px">Não seria um destes já cadastrados?</div><div class="sug">'+sug.map(s=>'<button data-i="'+i+'" data-v="'+esc(s)+'">'+esc(s)+'</button>').join('')+'</div>':'')+mini+'</div>';}).join('');
+  $('mdCorpo').querySelectorAll('.sug button').forEach(b=>b.onclick=()=>{const x=FALTAS[+b.dataset.i];$(x.campo).value=b.dataset.v;FALTAS.splice(+b.dataset.i,1);mdRender();});
+  cdLigarCnpj($('mdCorpo'));}
+$('mdNao').onclick=mdFechar;
+$('mdSim').onclick=()=>{const novos=[];
+  for(let i=0;i<FALTAS.length;i++){const x=FALTAS[i],pr='md'+i+'_';const g=k=>{const el=$(pr+k);return el?U(el.value):'';};let d;
+    if(x.tipo==='veiculo')d={placa:x.valor,modelo:g('modelo'),tara:g('tara'),motorista:U($('fMot').value),transportadora:U($('fTransp').value)};
+    else{d={nome:x.valor};['cpf','celular','cnpj','razao','cidade','uf','un'].forEach(k=>{const v=g(k);if(v)d[k]=v;});if(x.tipo==='motorista'&&$('fTransp').value)d.transp=U($('fTransp').value);if(x.tipo==='motorista')d.placaPad=normP($('inPlaca').value);}
+    Object.keys(d).forEach(k=>{if(!d[k])delete d[k];});const er=cdValidar(x.tipo,d);if(er){if(er!=='-')toast(CD_TIPOS[x.tipo].tit+': '+er,4000);return;}novos.push([x.tipo,d]);}
+  novos.forEach(([t,d])=>cdEnfileirar(t,d));sv();listas();const cb=MD_CB;mdFechar();if(cb){cb();toast('Cadastrado. Vai para o SGP na próxima sincronização.');sincronizar(false);}else enviarLanc();};
+
+/* ---------- escolha da lista (estilo ERP do SGP) ---------- */
+const PK_TIT={motorista:'Motorista',transportadora:'Transportadora',material:'Material',local:'Local da descarga',fornecedor:'Fornecedor / origem',cliente:'Cliente'};
+const PK_NOVO={motorista:'novo motorista',transportadora:'nova transportadora',material:'novo material',local:'novo local',fornecedor:'novo fornecedor',cliente:'novo cliente'};
+let PK=null;
+function pkAbrir(el){if(!ST.user){telaLogin();return;}PK={el,k:el.dataset.pick};$('pkTit').textContent=PK_TIT[PK.k];$('pkBusca').value='';$('pkNovo').textContent='+ Cadastrar '+PK_NOVO[PK.k];pkLista();$('pk').classList.add('on');}
+function pkLista(){const b=U($('pkBusca').value),bd=b.replace(/\D/g,'');const a=lst(PK.k);const inf=((ST.cad||{}).info||{})[PK.k]||{};const cur=U(PK.el.value);
+  const f=a.filter(n=>!b||n.includes(b)||(bd.length>=3&&String((inf[n]||[])[1]||'').replace(/\D/g,'').includes(bd)));
+  $('pkL').innerHTML=f.length?f.slice(0,400).map(n=>{const x=inf[n]||[];return '<div class="cbr'+(n===cur?' sel':'')+'" data-n="'+esc(n)+'"><span>'+esc(x[0]||'')+'</span><span><b>'+esc(n)+'</b>'+(x[2]?'<small>'+esc(x[2])+'</small>':'')+(x[3]?' <span class="tag t-env">📱 celular</span>':'')+'</span><span>'+esc(x[1]||'—')+'</span></div>';}).join('')
+    :'<div class="hint" style="padding:16px;text-align:center">'+(a.length?'Nada encontrado com "'+esc(b)+'".<br>Se for novo, toque em <b>'+esc($('pkNovo').textContent)+'</b>.':'Nenhum cadastrado ainda. Digite o nome na busca e toque em cadastrar.')+'</div>';
+  $('pkRod').textContent=f.length+' de '+a.length+' cadastrado(s)';
+  $('pkL').querySelectorAll('.cbr').forEach(r=>r.onclick=()=>pkEscolher(r.dataset.n));}
+function pkEscolher(n){const el=PK.el;el.value=n;pkFechar();el.dispatchEvent(new Event('change'));}
+function pkFechar(){$('pk').classList.remove('on');PK=null;}
+$('pkBusca').oninput=pkLista;$('pkX').onclick=e=>{e.preventDefault();pkFechar();};$('pkLimpar').onclick=e=>{e.preventDefault();pkEscolher('');};
+$('pkNovo').onclick=()=>{const k=PK.k,el=PK.el,n=U($('pkBusca').value).trim();if(!n){toast('Digite o nome na busca e toque em cadastrar.');$('pkBusca').focus();return;}
+  if(lst(k).includes(n)){pkEscolher(n);return;}pkFechar();
+  if(el.closest('#frm'))mdAbrir([{tipo:k,valor:n}],()=>{el.value=n;});else{el.value=n;toast(PK_TIT[k]+' '+n+' será cadastrado(a) junto ao salvar.');}};
+document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('input[data-pick]');if(el){e.preventDefault();el.blur();pkAbrir(el);}});
 
 /* ---------- lista ---------- */
 function lista(){const it=[...ST.fila.map(e=>({...e,_f:1})),...ST.env];
@@ -371,7 +587,7 @@ function lista(){const it=[...ST.fila.map(e=>({...e,_f:1})),...ST.env];
 /* ---------- início ---------- */
 if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 (async()=>{if(ST.cfg.modo==='onedrive'&&clientId()){try{await msalApp();}catch(e){}}
-  if(ST.cfg.modo==='demo'&&!ST.cad){ST.cad=DEMO;}listas();ui();if(!ST.user)telaLogin();else $('login').style.display='none';sincronizar(false);})();
+  if(ST.cfg.modo==='demo'&&!ST.cad){ST.cad=DEMO;}if(ST.user&&ST.sessao){ST.user=null;sv();}listas();ui();if(!ST.user)telaLogin();else $('login').style.display='none';sincronizar(false);})();
 </script>
 </body>
 </html>
